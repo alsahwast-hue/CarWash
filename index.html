@@ -1,0 +1,1352 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>html{color-scheme:light}body{margin:0}[hidden]{display:none!important}</style>
+<title>لمعة مغسلة السيارات</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1e3c72">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{
+  --bg:#E9F0F1; --surface:#FFFFFF; --surface-2:#F2F7F8; --ink:#0D2830; --ink-2:#4B646B; --line:#D2E0E3;
+  --accent:#00808F; --accent-ink:#FFFFFF; --accent-soft:#D8F0F2;
+  --warn-bg:#FFEAC0; --warn-fg:#7A4A00; --ok-bg:#D4F0DF; --ok-fg:#0E6637; --danger:#B3261E;
+  --plate-bg:#FFFFFF; --plate-ink:#12262C; --plate-band:#00808F;
+  --f-display:"Segoe UI","Noto Sans Arabic","Geeza Pro","Droid Arabic Kufi",Tahoma,system-ui,sans-serif;
+  --f-body:"Segoe UI","Noto Sans Arabic","Geeza Pro",Tahoma,system-ui,sans-serif;
+  --r:16px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#08171C; --surface:#10252C; --surface-2:#0B1E24; --ink:#E4F0F2; --ink-2:#94AEB4; --line:#1F3A42;
+    --accent:#35C3D2; --accent-ink:#04222A; --accent-soft:#12383F;
+    --warn-bg:#3B2E0F; --warn-fg:#F4C76B; --ok-bg:#12331F; --ok-fg:#82DAA6; --danger:#FF8A80;
+    --plate-bg:#E8F0F1; --plate-ink:#0F2228; --plate-band:#0A8793; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#08171C; --surface:#10252C; --surface-2:#0B1E24; --ink:#E4F0F2; --ink-2:#94AEB4; --line:#1F3A42;
+  --accent:#35C3D2; --accent-ink:#04222A; --accent-soft:#12383F;
+  --warn-bg:#3B2E0F; --warn-fg:#F4C76B; --ok-bg:#12331F; --ok-fg:#82DAA6; --danger:#FF8A80;
+  --plate-bg:#E8F0F1; --plate-ink:#0F2228; --plate-band:#0A8793; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink); font:400 15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:20px 48px;
+}
+.wrap{max-width:1120px;margin-inline:auto}
+h1,h2{font-family:var(--f-display);margin:0;text-wrap:balance}
+h2{font-size:20px;font-weight:600;line-height:1.3}
+.muted{color:var(--ink-2)}
+a{color:var(--accent)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:46px;height:46px;border-radius:14px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;flex:none}
+.mark svg{width:26px;height:26px}
+h1{font-size:28px;font-weight:700;line-height:1.15;overflow-wrap:anywhere}
+.sub{font-size:13px;color:var(--ink-2)}
+.meta{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:13px;color:var(--ink-2)}
+.badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;padding:3px 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--ink-2)}
+.badge i{width:8px;height:8px;border-radius:50%;background:var(--ink-2)}
+.badge.ok i{background:var(--ok-fg)}
+.badge.warn i{background:var(--warn-fg)}
+
+/* tabs */
+.tabs{display:flex;gap:4px;margin-block:18px 20px;border-bottom:1px solid var(--line)}
+.tabs a{padding:10px 18px;border-bottom:3px solid transparent;color:var(--ink-2);font-weight:500;text-decoration:none;margin-bottom:-1px}
+.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
+.tabs a:hover{color:var(--ink)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.stat{background:var(--surface);padding:16px 18px;min-width:0}
+.stat .l{font-size:12.5px;color:var(--ink-2)}
+.stat .v{font:600 28px/1.25 var(--f-display);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat .v small{font:500 13px var(--f-body);color:var(--ink-2)}
+.stat.hl .v{color:var(--accent)}
+
+/* layout */
+.cols{display:grid;grid-template-columns:minmax(0,410px) minmax(0,1fr);gap:20px;margin-top:20px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;min-width:0}
+.card-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.card-h p{margin:0;font-size:13px}
+.stack{display:flex;flex-direction:column;gap:14px}
+
+/* forms */
+label,.lbl{display:block;font-size:13px;font-weight:500;margin-bottom:5px;color:var(--ink-2)}
+input,select{width:100%;height:44px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:10px;padding:0 12px;font:inherit;min-width:0}
+input::placeholder{color:var(--ink-2);opacity:.65}
+input[type=number]{direction:ltr;text-align:right}
+input[type=tel]{direction:ltr;text-align:right}
+.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.plate-input{height:60px;text-align:center;font:700 26px var(--f-display);letter-spacing:.08em;background:var(--plate-bg);color:var(--plate-ink);border:2px solid var(--plate-ink);border-radius:10px;border-inline-start:14px solid var(--plate-band)}
+.plate-input::placeholder{color:var(--plate-ink);opacity:.3}
+.with-cur{position:relative}
+.with-cur input{padding-inline-end:58px}
+.with-cur .cur{position:absolute;inset-inline-end:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink-2);pointer-events:none}
+.hint{font-size:12.5px;margin-top:5px;color:var(--ink-2);min-height:1.2em}
+.hint b{color:var(--warn-fg);font-weight:600}
+.msg{font-size:13.5px;color:var(--danger);min-height:1.2em;margin:0}
+
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(116px,1fr));gap:8px}
+.chip{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface-2);color:var(--ink);text-align:start;cursor:pointer;min-width:0}
+.chip svg{width:46px;height:23px;color:var(--ink-2)}
+.chip .n{font-weight:600;font-size:14px;line-height:1.35;overflow-wrap:anywhere}
+.chip .p{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.chip[aria-checked="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.chip[aria-checked="true"] svg{color:var(--accent)}
+
+/* wash type pills */
+.wash-selected{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;padding:10px;background:var(--surface-2);border:1px dashed var(--line);border-radius:10px}
+.wash-selected .pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:var(--accent-soft);color:var(--ink);border:1px solid var(--accent);border-radius:999px;font-size:13px;font-weight:500}
+.wash-selected .pill button{width:20px;height:20px;border:0;border-radius:50%;background:transparent;color:var(--danger);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:16px;line-height:1;padding:0}
+.wash-selected .pill button:hover{background:var(--danger);color:#fff}
+
+.btn{height:48px;border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);font:600 15px var(--f-body);padding:0 22px;cursor:pointer}
+.btn:hover{filter:brightness(1.06)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.sm{height:36px;font-size:13px;padding:0 14px;border-radius:10px}
+.btn.block{width:100%}
+.icon-btn{height:32px;min-width:32px;padding:0 8px;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--ink-2);cursor:pointer;font-size:12.5px;display:inline-flex;align-items:center;justify-content:center;gap:4px}
+.icon-btn svg{width:16px;height:16px}
+.icon-btn:hover{color:var(--danger);border-color:var(--danger)}
+.icon-btn.armed{color:var(--danger);border-color:var(--danger);font-weight:600}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* wash rows */
+.plate{display:inline-flex;align-items:center;min-width:104px;justify-content:center;padding:5px 12px;background:var(--plate-bg);color:var(--plate-ink);border:2px solid var(--plate-ink);border-inline-start:9px solid var(--plate-band);border-radius:7px;font:700 16px/1.3 var(--f-display);letter-spacing:.05em;white-space:nowrap}
+.wash{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:13px 0;border-bottom:1px solid var(--line)}
+.wash:last-child{border-bottom:0}
+.winfo{flex:1 1 150px;min-width:0}
+.wt{font-weight:600;overflow-wrap:anywhere}
+.ws{font-size:13px;overflow-wrap:anywhere}
+.wpills{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.wpills .pill{padding:2px 8px;font-size:12px;border:1px solid var(--accent);border-radius:999px;background:var(--accent-soft)}
+.wprice{font:600 17px var(--f-display);font-variant-numeric:tabular-nums;white-space:nowrap}
+.cur{font:500 12.5px var(--f-body);color:var(--ink-2)}
+.wact{display:flex;align-items:center;gap:8px;margin-inline-start:auto}
+.st{height:32px;border-radius:999px;padding:0 13px;border:0;font:600 12.5px var(--f-body);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.st.wash{background:var(--warn-bg);color:var(--warn-fg)}
+.st.done{background:var(--ok-bg);color:var(--ok-fg)}
+.empty{padding:26px 8px;text-align:center;color:var(--ink-2)}
+.empty b{display:block;color:var(--ink);font-family:var(--f-display);font-size:17px;margin-bottom:4px;font-weight:600}
+.empty .btn{margin-top:14px}
+
+/* log */
+.filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:12px;align-items:end;margin-bottom:14px}
+.sum{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;margin-bottom:10px}
+.sum b{font-family:var(--f-display);font-size:18px;font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th{font-size:12.5px;font-weight:500;color:var(--ink-2);text-align:start;padding:10px 12px;background:var(--surface-2);border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.n,td.d{font-variant-numeric:tabular-nums;white-space:nowrap}
+td .plate{min-width:0;font-size:14px;padding:3px 10px}
+
+/* prices */
+.prow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.prow .ic{width:50px;color:var(--accent);flex:none}
+.prow .ic svg{width:46px;height:23px;display:block}
+.prow .nm{flex:2 1 170px;min-width:0}
+.prow .pr{flex:1 1 110px;min-width:0}
+.prow .kd{flex:1 1 140px;min-width:0}
+.addrow{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+.addrow>div{flex:1 1 130px;min-width:0}
+.addrow>div.w2{flex:2 1 180px}
+.settings{margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.banner{margin-top:16px;padding:14px 16px;border-radius:var(--r);background:var(--warn-bg);color:var(--warn-fg);display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.banner p{margin:0;flex:1 1 240px;min-width:0;font-size:14px}
+.banner .btn{background:var(--ink);color:var(--bg)}
+.banner .btn.ghost{background:transparent;color:inherit;border:1px solid currentColor}
+.confirm{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:14px}
+.confirm .btnrow{margin:10px 0 0}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 24px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;font-size:14px;z-index:30;max-width:calc(100vw - 32px);text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+svg,img{max-width:100%}
+h1{font-size:clamp(22px,4.5vw,30px)}
+
+/* شاشات كبيرة */
+@media (min-width:1280px){
+  .wrap{max-width:1280px}
+  .cols{grid-template-columns:minmax(0,440px) minmax(0,1fr)}
+}
+@media (min-width:1700px){
+  body{font-size:16px}
+  .wrap{max-width:1560px}
+  .stat .v{font-size:34px}
+  .cols{grid-template-columns:minmax(0,500px) minmax(0,1fr)}
+}
+
+/* تابلت وأقل */
+@media (max-width:920px){
+  .cols{grid-template-columns:minmax(0,1fr)}
+  .filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .filters .btn{grid-column:1/-1}
+}
+
+/* جوال */
+@media (max-width:720px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat .v{font-size:24px}
+  .meta{align-items:flex-start}
+  input,select{font-size:16px}              /* يمنع تكبير iOS التلقائي */
+   .settings{grid-template-columns:minmax(0,1fr)}
+  .row2{gap:10px}
+  .card{padding:16px}
+  .btn,.st,.icon-btn{min-height:44px}
+  .icon-btn{min-width:44px}
+  .filters{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.3fr);gap:8px}
+  .filters label{font-size:12px;white-space:nowrap}
+  .filters input,.filters select{padding:0 6px}
+  .filters select{font-size:14px}
+  .prow{flex-wrap:nowrap;gap:8px}
+  .prow .kd{flex:2 1 0}
+  .prow .pr{flex:1.2 1 0}
+  .prow .with-cur input{padding-inline-end:42px;padding-inline-start:8px}
+  .addrow{flex-wrap:nowrap;gap:8px}
+  .addrow>div{flex:1 1 0}
+  .addrow>div.w2{flex:2 1 0}
+  .addrow .btn{flex:none;padding:0 14px}
+    .chips{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .chip{padding:8px 6px;align-items:center;text-align:center}
+  .chip svg{width:40px;height:20px}
+  .chip .n{font-size:12.5px;line-height:1.3}
+  .chip .p{font-size:11.5px}
+
+.tabs{position:sticky;top:0;z-index:20;gap:0;margin:12px 0 16px;background:var(--bg);border-bottom:1px solid var(--line)}
+  .tabs a{flex:1;text-align:center;padding:12px 4px;white-space:nowrap}
+
+  /* الجدول يتحول إلى بطاقات بدون تمرير أفقي */
+  .tablewrap{border:0;overflow:visible}
+  table,tbody{display:block;min-width:0}
+  thead{display:none}
+  tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 10px;align-items:center;
+    padding:12px;margin-bottom:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2)}
+  td,tr:last-child td{display:block;padding:0;border:0;min-width:0}
+  td:empty{display:none}
+  td:nth-child(1){grid-column:1/-1;order:0;font-size:13px}
+  td:nth-child(2){order:1}
+  td:nth-child(6){order:2;justify-self:end}
+  td:nth-child(3),td:nth-child(4),td:nth-child(5){grid-column:1/-1}
+  td:nth-child(3){order:3}td:nth-child(4){order:4}td:nth-child(5){order:5}
+  td:nth-child(7){order:6}
+  td:nth-child(8){order:7;justify-self:end}
+}
+
+/* جوال صغير */
+@media (max-width:520px){
+  .wact{width:100%;justify-content:space-between;margin-inline-start:0}
+  .wprice{margin-inline-start:auto}
+  .prow .ic{display:none}
+  
+}
+@media (max-width:380px){
+  body{padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
+  .brand .mark{width:40px;height:40px}
+  .stat{padding:12px}
+  .stat .v{font-size:20px}
+  .plate-input{font-size:22px;height:54px}
+  .tabs a{font-size:13px;padding-inline:2px}
+  .row2{gap:8px}
+  input,select{padding:0 8px}
+}
+
+/* جوال بالوضع الأفقي (ارتفاع قصير) */
+@media (max-height:480px) and (orientation:landscape){
+  .tabs a{padding:8px 4px}
+  body{padding-bottom:calc(56px + env(safe-area-inset-bottom,0px))}
+  #toast{bottom:calc(env(safe-area-inset-bottom,0px) + 60px)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .chip,.btn,.st,.icon-btn{transition:background-color .15s,border-color .15s,color .15s}
+}
+.brand{flex-wrap:nowrap}
+#btnLang{align-self:center;margin-inline-start:4px;font-weight:600}
+/* ===== زر تثبيت التطبيق (أسفل النافذة) ===== */
+/* ===== زر تثبيت التطبيق (أسفل النافذة) ===== */
+#installBar {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 2000;
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(135deg, #0f2027, #2c5364);
+  box-shadow: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #fff;
+}
+body.has-install-bar #bookConfirmBar { bottom: 62px; }
+#installBar.show { display: flex; }
+#installBar .install-text { font-size: 13px; font-weight: 600; }
+#installBar .install-btn {
+  background: linear-gradient(135deg, #047413, #099c1c);
+  color: #000; border: none; border-radius: 10px;
+  padding: 9px 18px; font-weight: 700; cursor: pointer;
+  font-family: 'Cairo', sans-serif; font-size: 14px;
+}
+body.has-install-bar { padding-bottom: 80px; }
+</style>
+</head><body>
+<script>document.documentElement.lang="ar";document.documentElement.dir="rtl";</script>
+
+<div class="wrap" dir="rtl" lang="ar">
+  <header class="top">
+        <div class="brand">
+      <div class="mark" aria-hidden="true">...</div>
+      <div style="min-width:0">
+        <h1 id="shopName">لمعة</h1>
+        <div class="sub">سجل غسيل السيارات</div>
+      </div>
+      <button type="button" class="icon-btn" id="btnLang" title="تغيير اللغة / Change language" style="width:auto;padding:0 10px;gap:6px;flex:none">
+        <span id="langLabel">EN</span>
+      </button>
+    </div>
+    </div>
+    <div class="meta">
+      <span id="dateLabel"></span>
+      <span class="badge" id="modeBadge"><i></i><span>جارٍ التحميل</span></span>
+    </div>
+  </header>
+
+  <div class="banner" id="fileBanner" hidden role="status">
+    <p id="bnText"></p>
+    <button type="button" class="btn sm" id="bnCreate">إنشاء ملف البيانات</button>
+    <button type="button" class="btn sm ghost" id="bnOpen">فتح ملف موجود</button>
+    <button type="button" class="btn sm" id="bnPerm">متابعة الحفظ في الملف</button>
+  </div>
+
+  <nav class="tabs" aria-label="الأقسام">
+    <a href="#today" data-view="today">اليوم</a>
+    <a href="#log" data-view="log">السجل</a>
+    <a href="#prices" data-view="prices">الأنواع والأسعار</a>
+  </nav>
+
+  <main>
+    <!-- TODAY -->
+    <section id="v-today" aria-label="اليوم">
+      <div class="stats" id="stats">
+        <div class="stat"><div class="l">سيارات اليوم</div><div class="v" id="sCount">0</div></div>
+        <div class="stat hl"><div class="l">إيراد اليوم</div><div class="v" id="sRev">0</div></div>
+        <div class="stat"><div class="l">قيد الغسيل الآن</div><div class="v" id="sWash">0</div></div>
+        <div class="stat"><div class="l">إيراد الشهر</div><div class="v" id="sMonth">0</div></div>
+      </div>
+
+      <div class="cols">
+        <form class="card stack" id="form" autocomplete="off" novalidate>
+          <div class="card-h"><h2>تسجيل سيارة</h2></div>
+          <div>
+            <label for="plate">رقم اللوحة</label>
+            <input id="plate" class="plate-input" type="text" placeholder="1234 أ ب" maxlength="20" dir="auto">
+          </div>
+          <div>
+            <div class="lbl" id="typeLbl">نوع السيارة</div>
+            <div class="chips" id="chips" role="radiogroup" aria-labelledby="typeLbl"></div>
+          </div>
+          <div>
+            <div class="row2">
+              <div>
+                <label for="price">السعر</label>
+                <div class="with-cur"><input id="price" type="number" inputmode="decimal" step="any" min="0" placeholder="0"><span class="cur" id="priceCur"></span></div>
+                <div class="hint" id="priceHint"></div>
+              </div>
+              <div>
+                <label for="washPick">نوع الغسيل</label>
+                <select id="washPick"><option value="">— اختر —</option></select>
+              </div>
+            </div>
+            <div id="washSelected" class="wash-selected" hidden></div>
+          </div>
+          <div class="row2">
+            <div><label for="customer">اسم العميل <span class="muted">(اختياري)</span></label><input id="customer" type="text" maxlength="60"></div>
+            <div><label for="phone">الهاتف <span class="muted">(اختياري)</span></label><input id="phone" type="tel" inputmode="tel" maxlength="20"></div>
+          </div>
+          <div>
+            <label for="notes">ملاحظات <span class="muted">(اختياري)</span></label>
+            <input id="notes" type="text" maxlength="120" placeholder="مثال: تلميع داخلي، خدش في الباب">
+          </div>
+          <p class="msg" id="formMsg" role="alert"></p>
+          <button class="btn block" type="submit">تسجيل السيارة</button>
+        </form>
+
+        <div class="card">
+          <div class="card-h"><h2>سيارات اليوم</h2><p class="muted">اضغط على الحالة عند تسليم السيارة.</p></div>
+          <div id="todayList"><div class="empty">جارٍ التحميل…</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOG -->
+    <section id="v-log" aria-label="السجل" hidden>
+      <div class="card">
+        <div class="card-h"><h2>سجل السيارات</h2></div>
+        <div class="filters">
+          <div><label for="fPeriod">الفترة</label>
+            <select id="fPeriod"><option value="today">اليوم</option><option value="week">آخر 7 أيام</option><option value="month">هذا الشهر</option><option value="all">الكل</option></select></div>
+          <div><label for="fType">نوع السيارة</label><select id="fType"><option value="all">كل الأنواع</option></select></div>
+          <div><label for="fSearch">بحث</label><input id="fSearch" type="text" placeholder="لوحة أو اسم عميل"></div>
+          <button class="btn ghost" type="button" id="btnExport" hidden>تصدير CSV</button>
+        </div>
+        <div class="sum" id="logSum"></div>
+        <div id="logBody"></div>
+      </div>
+    </section>
+
+    <!-- PRICES -->
+    <section id="v-prices" aria-label="الأنواع والأسعار" hidden>
+      <div class="card">
+        <div class="card-h"><h2>أنواع السيارات والأسعار</h2><p class="muted">السعر المحدد هنا يظهر تلقائياً عند اختيار النوع في التسجيل.</p></div>
+        <div id="typeRows"></div>
+        <form class="addrow" id="addType" autocomplete="off">
+          <div class="w2"><label for="nKind">نوع المركبة</label><select id="nKind"></select></div>
+<div><label for="nPrice">السعر</label><input id="nPrice" type="number" inputmode="decimal" step="any" min="0" placeholder="0"></div>
+          <button class="btn" type="submit">إضافة</button>
+        </form>
+        <p class="msg" id="typeMsg" role="alert"></p>
+      </div>
+      <div class="card settings">
+        <div><label for="sShop">اسم المغسلة</label><input id="sShop" type="text" maxlength="40"></div>
+        <div><label for="sCur">العملة</label><select id="sCur"></select>
+          <div class="hint">تغيير العملة لا يحوّل الأسعار المسجلة.</div></div>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <div class="card-h"><h2>النسخ الاحتياطي</h2></div>
+        <div class="btnrow">
+          <button type="button" class="btn sm" id="btnBackup">حفظ نسخة احتياطية</button>
+          <button type="button" class="btn sm ghost" id="btnRestore">استعادة نسخة</button>
+          <input type="file" id="restoreInput" accept=".json,application/json" hidden>
+        </div>
+        <div class="hint" id="backupStatus"></div>
+        <div class="confirm" id="restoreBox" hidden></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+
+
+
+<!-- ============ شريط تثبيت التطبيق ============ -->
+<div id="installBar">
+  <span class="install-text" id="installText"></span>
+  <button class="install-btn" id="installBtn">تثبيت التطبيق📲</button>
+</div>
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)};
+var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+
+/* ---------- i18n ---------- */
+var I18N={
+  ar:{
+    dir:"rtl", lang:"ar", label:"EN", locale:"ar-OM-u-nu-latn",
+    shop:"لمعة", sub:"سجل غسيل السيارات",
+    badge:{loading:"جارٍ التحميل", synced:"محفوظ ومتزامن", file:"محفوظ في الملف: ", browser:"محفوظ في المتصفح"},
+    tabs:{today:"اليوم", log:"السجل", prices:"الأنواع والأسعار"},
+    stats:{count:"سيارات اليوم", rev:"إيراد اليوم", wash:"قيد الغسيل الآن", month:"إيراد الشهر"},
+    form:{title:"تسجيل سيارة", plate:"رقم اللوحة", type:"نوع السيارة", price:"السعر", washType:"نوع الغسيل",
+      customer:"اسم العميل", phone:"الهاتف", notes:"ملاحظات", optional:"(اختياري)", submit:"تسجيل السيارة",
+      priceEdited:"السعر معدّل",
+      noTypes:"لم تُضف أنواع سيارات بعد. ",
+      addFromPrices:"أضفها من الأنواع والأسعار",
+      errPlate:"اكتب رقم اللوحة.", errType:"اختر نوع السيارة.", errPrice:"اكتب سعراً صحيحاً.", saved:"تم تسجيل السيارة",
+      pickWash:"— اختر نوع الغسيل —"},
+    today:{title:"سيارات اليوم", hint:"اضغط على الحالة عند تسليم السيارة.", emptyTitle:"لا توجد سيارات اليوم", emptySub:"سجّل أول سيارة من النموذج، وستظهر هنا مع حالتها.", delivered:"تم التسليم", washing:"قيد الغسيل"},
+    log:{title:"سجل السيارات", period:"الفترة", type:"نوع السيارة", search:"بحث", searchPh:"لوحة أو اسم عميل", allTypes:"كل الأنواع", export:"تصدير CSV", count:"عدد السيارات: ", total:"الإجمالي: ", emptyTitle:"لا توجد نتائج", emptySub:"غيّر الفترة أو البحث لعرض سجلات أخرى.",
+      th:{date:"التاريخ", time:"الوقت", plate:"اللوحة", type:"النوع", washType:"نوع الغسيل", customer:"العميل", phone:"الهاتف", price:"السعر", status:"الحالة", notes:"ملاحظات"},
+      periods:{today:"اليوم", week:"آخر 7 أيام", month:"هذا الشهر", all:"الكل"}},
+    prices:{title:"أنواع السيارات والأسعار", hint:"السعر المحدد هنا يظهر تلقائياً عند اختيار النوع في التسجيل.", name:"الاسم", price:"السعر", kind:"الشكل", newType:"نوع جديد", newNamePh:"مثال: سيارة صغيرة", add:"إضافة", delete:"حذف", emptyTitle:"لا توجد أنواع بعد", emptySub:"ابدأ بأنواع وأسعار مقترحة وعدّلها كما تريد، أو أضف نوعك الأول من النموذج أدناه.", seed:"إضافة الأنواع المقترحة", added:"تمت إضافة النوع", errName:"اكتب اسم النوع.", errPrice:"اكتب سعراً صحيحاً.", saved:"تم الحفظ",
+      settings:{shop:"اسم المغسلة", cur:"العملة", curHint:"تغيير العملة لا يحوّل الأسعار المسجلة."},
+      backup:{title:"النسخ الاحتياطي", save:"حفظ نسخة احتياطية", restore:"استعادة نسخة", saved:"تم حفظ النسخة: ", downloaded:"تم تنزيل النسخة: ", failed:"تعذّر حفظ النسخة.", restored:"تمت الاستعادة.", invalid:"الملف غير صالح. اختر ملف نسخة احتياطية للمغسلة.",
+        confirmAr:function(nw,nt,when){return 'سيتم استبدال البيانات الحالية ('+nw+' سيارة) ببيانات النسخة ('+nt.washes+' سيارة، '+nt.types+' نوع)، تاريخ الحفظ: '+esc(when)+'.'},
+        go:"استعادة", no:"إلغاء"}},
+    washTypes:["غسيل داخلي","غسيل خارجي","غسيل الكراسي والفرش","غسيل شامل","غسيل زوالي","غسيل كنبات","غسيل بطانيات","غسيل وسائد","غسيل مرتبة","غسيل اخرى"],
+    kinds:{sedan:"سيدان",suv:"دفع رباعي",pickup:"بيك أب",van:"فان / حافلة",bike:"دراجة نارية",truck:"شاحنة",caravan:"كرفان",cart:"عربة",other:"أخرى"},
+    common:{toastSaveErr:"تعذّر الحفظ. قد لا تملك صلاحية التعديل على هذه الصفحة.", toastLoadErr:"تعذّر تحميل البيانات المحفوظة.", deleted:"تم الحذف", confirmDel:"تأكيد الحذف", deleteLabel:"حذف", loading:"جارٍ التحميل…"}
+  },
+  en:{
+    dir:"ltr", lang:"en", label:"ع", locale:"en-GB",
+    shop:"Lamaa", sub:"Car Wash Ledger",
+    badge:{loading:"Loading", synced:"Saved & Synced", file:"Saved to file: ", browser:"Saved in browser"},
+    tabs:{today:"Today", log:"Log", prices:"Types & Prices"},
+    stats:{count:"Cars Today", rev:"Today Revenue", wash:"Currently Washing", month:"Month Revenue"},
+    form:{title:"Register Car", plate:"Plate Number", type:"Car Type", price:"Price", washType:"Wash Type",
+      customer:"Customer", phone:"Phone", notes:"Notes", optional:"(optional)", submit:"Register Car",
+      priceDefault:"Default price for this type. You can adjust it for this car only.",
+      priceEdited:"Edited price",
+      noTypes:"No car types yet. ",
+      addFromPrices:"Add them from Types & Prices",
+      errPlate:"Enter the plate number.", errType:"Select the car type.", errPrice:"Enter a valid price.", saved:"Car registered",
+      pickWash:"— Pick a wash type —"},
+    today:{title:"Today's Cars", hint:"Tap the status when the car is delivered.", emptyTitle:"No cars today", emptySub:"Register the first car from the form; it will appear here with its status.", delivered:"Delivered", washing:"Washing"},
+    log:{title:"Cars Log", period:"Period", type:"Car Type", search:"Search", searchPh:"Plate or customer name", allTypes:"All types", export:"Export CSV", count:"Cars: ", total:"Total: ", emptyTitle:"No results", emptySub:"Change the period or search to see other records.",
+      th:{date:"Date", time:"Time", plate:"Plate", type:"Type", washType:"Wash Type", customer:"Customer", phone:"Phone", price:"Price", status:"Status", notes:"Notes"},
+      periods:{today:"Today", week:"Last 7 days", month:"This month", all:"All"}},
+    prices:{title:"Car Types & Prices", hint:"The price set here is auto-filled when selecting the type in the registration form.", name:"Name", price:"Price", kind:"Shape", newType:"New type", newNamePh:"e.g. Small car", add:"Add", delete:"Delete", emptyTitle:"No types yet", emptySub:"Start with suggested types and prices, edit them as you wish, or add your first type from the form below.", seed:"Add suggested types", added:"Type added", errName:"Enter the type name.", errPrice:"Enter a valid price.", saved:"Saved",
+      settings:{shop:"Shop Name", cur:"Currency", curHint:"Changing the currency does not convert saved prices."},
+      backup:{title:"Backup", save:"Save backup", restore:"Restore backup", saved:"Saved: ", downloaded:"Downloaded: ", failed:"Could not save the backup.", restored:"Restored.", invalid:"Invalid file. Pick a car-wash backup file.",
+        confirmAr:function(nw,nt,when){return 'Current data ('+nw+' cars) will be replaced with the backup ('+nt.washes+' cars, '+nt.types+' types), saved: '+esc(when)+'.'},
+        go:"Restore", no:"Cancel"}},
+    washTypes:["Interior Wash","Exterior Wash","Seats & Upholstery","Full Wash","Rugs Wash","Sofas Wash","Blankets Wash","Pillows Wash","Mattress Wash","Other"],
+    kinds:{sedan:"Sedan",suv:"SUV",pickup:"Pickup",van:"Van / Bus",bike:"Motorcycle",truck:"Truck",caravan:"Caravan",cart:"Cart",other:"Other"},
+    common:{toastSaveErr:"Could not save. You may not have permission to edit this page.", toastLoadErr:"Could not load saved data.", deleted:"Deleted", confirmDel:"Confirm delete", deleteLabel:"Delete", loading:"Loading…"}
+  }
+};
+function L(){return I18N[state.settings.lang||"ar"]}
+function washTypeList(){return L().washTypes}
+
+/* ---------- constants ---------- */
+/* KINDS فقط يحوي المفاتيح، والأسماء تُقرأ من I18N */
+var KINDS={sedan:1,suv:1,pickup:1,van:1,bike:1,truck:1,caravan:1,cart:1,other:1};
+var WHEELS='<circle cx="13" cy="18" r="3"/><circle cx="35" cy="18" r="3"/>';
+var BASE='<path d="M3 18h7M16 18h16M38 18h6"/>';
+var ICONS={
+  sedan:'<path d="M3 18v-4l7-2 5-5h14l6 5 9 2v4"/>'+BASE+WHEELS,
+  suv:'<path d="M3 18v-5l6-1.5L12 6h22l4.5 5.5L44 13v5"/>'+BASE+WHEELS,
+  pickup:'<path d="M3 18v-5l7-1 4-5h11v5h19v6"/>'+BASE+WHEELS,
+  van:'<path d="M3 18V6h29l8 6.5 4 1.5v4"/>'+BASE+WHEELS,
+  bike:'<circle cx="10" cy="16" r="5"/><circle cx="38" cy="16" r="5"/><path d="M10 16l8-7h9l5 7M27 9l11 7M32 5h4"/>',
+  truck:'<path d="M3 18v-6h18v6M21 12l4-3h6v9M31 18h6"/>'+BASE+WHEELS,
+  caravan:'<path d="M3 18v-8h22l3 4h4v4"/>'+BASE+WHEELS,
+  cart:'<path d="M3 18v-4h10v4M13 14h6l3-4h8v8"/>'+BASE+WHEELS
+};
+ICONS.other=ICONS.sedan;
+function icon(k){return '<svg viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[k]||ICONS.sedan)+'</svg>'}
+var DEFAULT_NAMES={
+  ar:{sedan:"سيدان",suv:"سيارة دفع رباعي",pickup:"بيك أب",van:"فان / حافلة صغيرة",bike:"دراجة نارية",truck:"شاحنة",caravan:"كرفان",cart:"عربة",other:"أخرى"},
+  en:{sedan:"Sedan",suv:"SUV",pickup:"Pickup",van:"Van / Minibus",bike:"Motorcycle",truck:"Truck",caravan:"Caravan",cart:"Cart",other:"Other"}
+};
+
+function tName(t){
+  if(!t)return "";
+  var k=t.kind,lang=(state.settings.lang==="en")?"en":"ar";
+  if(k&&DEFAULT_NAMES.ar[k]&&(t.name===DEFAULT_NAMES.ar[k]||t.name===DEFAULT_NAMES.en[k]))return DEFAULT_NAMES[lang][k];
+  return t.name;
+}
+
+function wName(n){
+  if(!n)return n;
+  var i=I18N.ar.washTypes.indexOf(n);
+  if(i<0)i=I18N.en.washTypes.indexOf(n);
+  return i>=0?L().washTypes[i]:n;
+}
+
+var TRASH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg><span class="sr">حذف</span>';
+var CURRENCIES=[["ر.ع.",3,"ريال عُماني","Omani Rial"],["ر.س",2,"ريال سعودي","Saudi Riyal"],["د.إ",2,"درهم إماراتي","UAE Dirham"],["د.ك",3,"دينار كويتي","Kuwaiti Dinar"],["ر.ق",2,"ريال قطري","Qatari Riyal"],["د.ب",3,"دينار بحريني","Bahraini Dinar"],["ج.م",2,"جنيه مصري","Egyptian Pound"],["$",2,"دولار أمريكي","US Dollar"]];
+
+function defaultTypes(){
+  var t=Date.now();
+  var base={sedan:["سيدان",2,"sedan"],suv:["سيارة دفع رباعي",3,"suv"],pickup:["بيك أب",3,"pickup"],van:["فان / حافلة صغيرة",4,"van"],bike:["دراجة نارية",1,"bike"],truck:["شاحنة",5,"truck"],caravan:["كرفان",6,"caravan"],cart:["عربة",2,"cart"],other:["أخرى",2,"other"]};
+  return ["sedan","suv","pickup","van","bike","truck","caravan","cart","other"].map(function(k,i){
+    var r=base[k];
+    return {id:"t_"+(t+i).toString(36),name:r[0],price:r[1],kind:r[2],sort:t+i};
+  });
+}
+
+/* ---------- state ---------- */
+var state={types:[],washes:[],settings:{shop:"لمعة",cur:"ر.ع.",dec:3,lang:"ar"},mode:"loading",ready:false,sel:null,view:"today",washSel:[]};
+var db=null, dl=null, LS="lamaa-carwash-v1";
+
+function lsRead(){try{return JSON.parse(localStorage.getItem(LS)||"null")}catch(e){return null}}
+function idbOpen(){return new Promise(function(res,rej){var r=indexedDB.open("lamaa-carwash",1);r.onupgradeneeded=function(){r.result.createObjectStore("data")};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
+function idbRead(){return idbOpen().then(function(d){return new Promise(function(res){var q=d.transaction("data").objectStore("data").get("all");q.onsuccess=function(){res(q.result||null)};q.onerror=function(){res(null)}})}).catch(function(){return null})}
+function idbWrite(v){return idbOpen().then(function(d){d.transaction("data","readwrite").objectStore("data").put(v,"all")}).catch(function(){})}
+function lsWrite(){
+  var snap={types:state.types,washes:state.washes,settings:state.settings,savedAt:Date.now()};
+  try{localStorage.setItem(LS,JSON.stringify(snap))}catch(e){}
+  idbWrite(JSON.parse(JSON.stringify(snap)));
+  if(fh)writeSoon();
+}
+function sortAll(){
+  state.types.sort(function(a,b){return (a.sort||0)-(b.sort||0)});
+  state.washes.sort(function(a,b){return (b.ts||0)-(a.ts||0)});
+}
+
+/* ---------- helpers ---------- */
+function pad(n){return n<10?"0"+n:""+n}
+function dayKey(ts){var d=new Date(ts);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function startOfDay(ts){var d=new Date(ts);return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime()}
+function timeFmt(ts){var d=new Date(ts);return pad(d.getHours())+":"+pad(d.getMinutes())}
+function dateFmt(ts){var d=new Date(ts);return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()}
+function num(n){return Number(n||0).toFixed(state.settings.dec)}
+function money(n){return '<span class="amt">'+num(n)+'</span> <span class="cur">'+esc(state.settings.cur)+'</span>'}
+function inPeriod(w,p){
+  if(p==="all")return true;
+  var now=Date.now();
+  if(p==="today")return w.day===dayKey(now);
+  if(p==="week")return w.ts>=startOfDay(now)-6*864e5;
+  if(p==="month"){var a=new Date(w.ts),b=new Date(now);return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()}
+  return true;
+}
+function toast(m){
+  var t=$("#toast");t.textContent=m;t.hidden=false;
+  clearTimeout(toast.h);toast.h=setTimeout(function(){t.hidden=true},2600);
+}
+function uid(p){return p+"_"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+
+/* ---------- persistence ---------- */
+function clean(o){return JSON.parse(JSON.stringify(o))}
+async function put(coll,obj){
+  var body=clean(obj);
+  if(db){await db.doc(coll+"/"+obj.id).set(body);return}
+  var arr=state[coll],i=arr.findIndex(function(x){return x.id===obj.id});
+  if(i>=0)arr[i]=body;else arr.push(body);
+  sortAll();lsWrite();renderAll();
+}
+async function patch(coll,id,f){
+  if(db){await db.doc(coll+"/"+id).update(clean(f));return}
+  var o=state[coll].find(function(x){return x.id===id});
+  if(o)Object.assign(o,f);
+  lsWrite();renderAll();
+}
+async function drop(coll,id){
+  if(db){await db.doc(coll+"/"+id).delete();return}
+  state[coll]=state[coll].filter(function(x){return x.id!==id});
+  lsWrite();renderAll();
+}
+async function putSettings(){
+  if(db){await db.doc("settings/main").set(clean(state.settings));return}
+  lsWrite();renderAll();
+}
+async function run(fn,ok){
+  try{await fn();if(ok)toast(ok);return true}
+  catch(e){toast(L().common.toastSaveErr);return false}
+}
+
+/* ---------- render ---------- */
+function typeById(id){return state.types.find(function(t){return t.id===id})}
+
+function renderHeader(){
+  var l=L();
+  $("#shopName").textContent=state.settings.shop||l.shop;
+  var s;
+  try{s=new Date().toLocaleDateString(l.locale,{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
+  catch(e){s=dateFmt(Date.now())}
+  $("#dateLabel").textContent=s;
+  var b=$("#modeBadge");
+  if(state.mode==="db"){b.className="badge ok";b.lastChild.textContent=l.badge.synced}
+  else if(state.mode==="local"){b.className=fh?"badge ok":"badge warn";b.lastChild.textContent=fh?(l.badge.file+fh.name):l.badge.browser}
+  else{b.className="badge";b.lastChild.textContent=l.badge.loading}
+  $("#priceCur").textContent=state.settings.cur;
+  $("#langLabel").textContent=l.label;
+}
+
+function renderStats(){
+  var today=dayKey(Date.now()),cnt=0,rev=0,wash=0,month=0;
+  state.washes.forEach(function(w){
+    if(w.day===today){cnt++;rev+=+w.price||0;if(w.status==="wash")wash++}
+    if(inPeriod(w,"month"))month+=+w.price||0;
+  });
+  var cur=esc(state.settings.cur);
+  $("#sCount").textContent=cnt;
+  $("#sRev").innerHTML=num(rev)+' <small>'+cur+'</small>';
+  $("#sWash").textContent=wash;
+  $("#sMonth").innerHTML=num(month)+' <small>'+cur+'</small>';
+}
+
+function renderChips(){
+  var box=$("#chips"),l=L();
+  if(!state.ready){box.innerHTML='<p class="muted">'+l.common.loading+'</p>';return}
+  if(!state.types.length){
+    box.innerHTML='<p class="muted" style="margin:0">'+l.form.noTypes+'<a href="#prices" data-view="prices">'+l.form.addFromPrices+'</a>.</p>';
+    state.sel=null;return;
+  }
+  if(!typeById(state.sel)){state.sel=state.types[0].id;syncPrice()}
+  box.innerHTML=state.types.map(function(t){
+    return '<button type="button" class="chip" role="radio" aria-checked="'+(t.id===state.sel)+'" data-type="'+esc(t.id)+'">'+icon(t.kind)+'<span class="n">'+esc(tName(t))+'</span><span class="p">'+num(t.price)+' '+esc(state.settings.cur)+'</span></button>';
+  }).join("");
+}
+
+function syncPrice(){
+  var t=typeById(state.sel);
+  $("#price").value=t?String(+(+t.price).toFixed(state.settings.dec)):"";
+  renderHint();
+}
+function renderHint(){
+  var t=typeById(state.sel),h=$("#priceHint"),v=parseFloat($("#price").value),l=L();
+  if(!t){h.textContent="";return}
+  if(!isNaN(v)&&Math.abs(v-t.price)>1e-9)h.innerHTML='<b>'+l.form.priceEdited+'</b> ('+num(t.price)+' '+esc(state.settings.cur)+')';
+  else h.textContent=l.form.priceDefault;
+}
+
+/* ---------- wash type select ---------- */
+function renderWashSelect(){
+  var sel=$("#washPick"); if(!sel)return;
+  var list=washTypeList(),l=L();
+  state.washSel=state.washSel.map(wName).filter(function(v,i,a){return list.indexOf(v)>=0&&a.indexOf(v)===i});
+  sel.innerHTML='<option value="">'+esc(l.form.pickWash)+'</option>'+
+    list.map(function(name){
+      return '<option value="'+esc(name)+'"'+(state.washSel.indexOf(name)>=0?" disabled":"")+'>'+esc(name)+'</option>';
+    }).join("");
+  sel.value="";
+  renderWashSelected();
+}
+function renderWashSelected(){
+  var box=$("#washSelected"); if(!box)return;
+  if(!state.washSel.length){box.hidden=true;box.innerHTML="";return}
+  box.hidden=false;
+  box.innerHTML=state.washSel.map(function(name){
+    return '<span class="pill">'+esc(name)+'<button type="button" data-wash-remove="'+esc(name)+'" aria-label="'+L().common.deleteLabel+'">×</button></span>';
+  }).join("");
+}
+function addWash(name){
+  if(!name)return;
+  if(state.washSel.indexOf(name)<0)state.washSel.push(name);
+  renderWashSelect();
+}
+function removeWash(name){
+  var i=state.washSel.indexOf(name);
+  if(i>=0)state.washSel.splice(i,1);
+  renderWashSelect();
+}
+
+function washRow(w){
+  var l=L(),pills=[],extra=[];
+  if(Array.isArray(w.washTypes)&&w.washTypes.length){
+    pills.push(w.washTypes.map(function(x){return '<span class="pill">'+esc(wName(x))+'</span>'}).join(""));
+  } else if(w.washType){
+   pills.push('<span class="pill">'+esc(wName(w.washType))+'</span>');
+  }
+  if(w.customer)extra.push(esc(w.customer));
+  if(w.phone)extra.push('<bdi>'+esc(w.phone)+'</bdi>');
+  if(w.notes)extra.push(esc(w.notes));
+  return '<div class="wash"><span class="plate"><bdi>'+esc(w.plate)+'</bdi></span>'+
+    '<div class="winfo"><div class="wt">'+ esc(tName({kind:w.kind,name:w.typeName}))+' <span class="muted" style="font-weight:400">· '+timeFmt(w.ts)+'</span></div>'+
+    (pills.length?'<div class="wpills">'+pills.join("")+'</div>':'')+
+    (extra.length?'<div class="muted ws">'+extra.join(" · ")+'</div>':'')+'</div>'+
+    '<div class="wprice">'+money(w.price)+'</div>'+
+    '<div class="wact"><button type="button" class="st '+(w.status==="done"?"done":"wash")+'" data-toggle="'+esc(w.id)+'" title="'+l.today.hint+'">'+(w.status==="done"?l.today.delivered:l.today.washing)+'</button>'+
+    '<button type="button" class="icon-btn" data-coll="washes" data-del="'+esc(w.id)+'">'+TRASH+'</button></div></div>';
+}
+
+function renderToday(){
+  var box=$("#todayList"),l=L();
+  if(!state.ready){box.innerHTML='<div class="empty">'+l.common.loading+'</div>';return}
+  var today=dayKey(Date.now());
+  var list=state.washes.filter(function(w){return w.day===today});
+  box.innerHTML=list.length?list.map(washRow).join(""):
+    '<div class="empty"><b>'+l.today.emptyTitle+'</b>'+l.today.emptySub+'</div>';
+}
+
+function renderLogFilters(){
+  var sel=$("#fType"),cur=sel.value||"all",l=L();
+  sel.innerHTML='<option value="all">'+l.log.allTypes+'</option>'+state.types.map(function(t){return '<option value="'+esc(t.id)+'">'+esc(tName(t))+'</option>'}).join("");
+  sel.value=Array.prototype.some.call(sel.options,function(o){return o.value===cur})?cur:"all";
+}
+function nd(s){return String(s==null?"":s).replace(/[٠-٩]/g,function(c){return c.charCodeAt(0)-1632}).replace(/[۰-۹]/g,function(c){return c.charCodeAt(0)-1776})}
+function filteredWashes(){
+  var p=$("#fPeriod").value,ty=$("#fType").value,q=nd($("#fSearch").value).trim().toLowerCase(),qd=q.replace(/\D/g,"");
+  return state.washes.filter(function(w){
+    if(!inPeriod(w,p))return false;
+    if(ty!=="all"&&w.typeId!==ty)return false;
+    if(q){
+      var hay=nd((w.plate||"")+" "+(w.customer||"")+" "+(w.phone||"")).toLowerCase();
+      var ph=nd(w.phone||"").replace(/\D/g,"");
+      if(hay.indexOf(q)<0&&!(qd&&ph.indexOf(qd)>=0))return false;
+    }
+    return true;
+  });
+}
+function renderLog(){
+  var l=L(),th=l.log.th;
+  var list=filteredWashes(),total=0;
+  list.forEach(function(w){total+=+w.price||0});
+  $("#btnExport").hidden=!(dl&&list.length);
+  $("#logSum").innerHTML='<span>'+l.log.count+'<b>'+list.length+'</b></span><span>'+l.log.total+'<b>'+num(total)+'</b> <span class="cur">'+esc(state.settings.cur)+'</span></span>';
+  var body=$("#logBody");
+  if(!state.ready){body.innerHTML='<div class="empty">'+l.common.loading+'</div>';return}
+  if(!list.length){body.innerHTML='<div class="empty"><b>'+l.log.emptyTitle+'</b>'+l.log.emptySub+'</div>';return}
+  body.innerHTML='<div class="tablewrap"><table><thead><tr>'+
+    '<th>'+th.date+'</th><th>'+th.plate+'</th><th>'+th.type+'</th><th>'+th.washType+'</th><th>'+th.customer+'</th><th>'+th.price+'</th><th>'+th.status+'</th><th><span class="sr">'+l.prices.delete+'</span></th></tr></thead><tbody>'+
+    list.map(function(w){
+      var wt=Array.isArray(w.washTypes)?w.washTypes.map(wName).join(", "):wName(w.washType||"");
+      return '<tr><td class="d">'+dateFmt(w.ts)+' <span class="muted">'+timeFmt(w.ts)+'</span></td>'+
+        '<td><span class="plate"><bdi>'+esc(w.plate)+'</bdi></span></td>'+
+        '<td>'+esc(tName({kind:w.kind,name:w.typeName}))+'</td>'+
+        '<td>'+esc(wt)+'</td>'+
+        '<td>'+esc(w.customer||"")+(w.phone?' <bdi class="muted">'+esc(w.phone)+'</bdi>':'')+'</td>'+
+        '<td class="n">'+money(w.price)+'</td>'+
+        '<td><button type="button" class="st '+(w.status==="done"?"done":"wash")+'" data-toggle="'+esc(w.id)+'">'+(w.status==="done"?l.today.delivered:l.today.washing)+'</button></td>'+
+        '<td><button type="button" class="icon-btn" data-coll="washes" data-del="'+esc(w.id)+'">'+TRASH+'</button></td></tr>';
+    }).join("")+'</tbody></table></div>';
+}
+
+function kindOptions(sel){
+  var l=L();
+  return Object.keys(KINDS).map(function(k){return '<option value="'+k+'"'+(k===sel?" selected":"")+'>'+l.kinds[k]+'</option>'}).join("");
+}
+function renderPrices(){
+  var box=$("#typeRows"),l=L();
+  if(box.contains(document.activeElement)&&document.activeElement!==box)return;
+  if(!state.ready){box.innerHTML='<div class="empty">'+l.common.loading+'</div>';return}
+  if(!state.types.length){
+    box.innerHTML='<div class="empty"><b>'+l.prices.emptyTitle+'</b>'+l.prices.emptySub+'<br><button type="button" class="btn sm" id="seedBtn">'+l.prices.seed+'</button></div>';
+    return;
+  }
+  box.innerHTML=state.types.map(function(t){
+    return '<div class="prow" data-id="'+esc(t.id)+'"><div class="ic">'+icon(t.kind)+'</div>'+
+      '<div class="kd"><label class="sr" for="kd-'+esc(t.id)+'">'+l.prices.kind+'</label><select id="kd-'+esc(t.id)+'" data-f="kind">'+kindOptions(t.kind)+'</select></div>'+
+      '<div class="pr"><label class="sr" for="pr-'+esc(t.id)+'">'+l.prices.price+'</label><div class="with-cur"><input id="pr-'+esc(t.id)+'" data-f="price" type="number" inputmode="decimal" step="any" min="0" value="'+esc(+(+t.price).toFixed(state.settings.dec))+'"><span class="cur">'+esc(state.settings.cur)+'</span></div></div>'+
+      '<button type="button" class="icon-btn" data-coll="types" data-del="'+esc(t.id)+'">'+TRASH+'</button></div>';
+  }).join("");
+}
+function renderSettings(){
+  var a=document.activeElement;
+  if(a!==$("#sShop"))$("#sShop").value=state.settings.shop||"";
+  var sel=$("#sCur");
+  var curList=CURRENCIES.map(function(c){return [c[0],c[1],state.settings.lang==="en"?c[3]:c[2]]});
+  sel.innerHTML=curList.map(function(c){return '<option value="'+esc(c[0])+'">'+esc(c[2]+" ("+c[0]+")")+'</option>'}).join("");
+  sel.value=state.settings.cur;
+}
+
+/* ---------- language applier ---------- */
+function applyLang(){
+  var l=L();
+  document.documentElement.lang=l.lang;
+  document.documentElement.dir=l.dir;
+  document.body.dir=l.dir;
+  $("#langLabel").textContent=l.label;
+  var sub=document.querySelector(".sub"); if(sub)sub.textContent=l.sub;
+
+  document.querySelectorAll(".tabs a").forEach(function(a){
+    if(l.tabs[a.dataset.view])a.textContent=l.tabs[a.dataset.view];
+  });
+
+  var st=document.querySelectorAll("#stats .stat .l");
+  if(st.length===4){st[0].textContent=l.stats.count;st[1].textContent=l.stats.rev;st[2].textContent=l.stats.wash;st[3].textContent=l.stats.month}
+
+  var f=l.form,form=$("#form");
+  if(form){
+    var h=form.querySelector("h2"); if(h)h.textContent=f.title;
+    var lp=form.querySelector('label[for="plate"]'); if(lp)lp.textContent=f.plate;
+    var tl=$("#typeLbl"); if(tl)tl.textContent=f.type;
+    var lpr=form.querySelector('label[for="price"]'); if(lpr)lpr.textContent=f.price;
+    var lwp=form.querySelector('label[for="washPick"]'); if(lwp)lwp.textContent=f.washType;
+    var lc=form.querySelector('label[for="customer"]'); if(lc)lc.innerHTML=f.customer+' <span class="muted">'+f.optional+'</span>';
+    var lph=form.querySelector('label[for="phone"]'); if(lph)lph.innerHTML=f.phone+' <span class="muted">'+f.optional+'</span>';
+    var ln=form.querySelector('label[for="notes"]'); if(ln)ln.innerHTML=f.notes+' <span class="muted">'+f.optional+'</span>';
+    var sb=form.querySelector('button[type="submit"]'); if(sb)sb.textContent=f.submit;
+    var ph=$("#plate"); if(ph)ph.placeholder=l.lang==="ar"?"1234 أ ب":"1234 AB";
+    var nts=$("#notes"); if(nts)nts.placeholder=l.lang==="ar"?"مثال: تلميع داخلي، خدش في الباب":"e.g. interior polish, door scratch";
+  }
+
+  var tH=document.querySelector("#v-today div.card .card-h h2"); if(tH)tH.textContent=l.today.title;
+var tP=document.querySelector("#v-today div.card .card-h p"); if(tP)tP.textContent=l.today.hint;
+
+  var lH=document.querySelector("#v-log .card-h h2"); if(lH)lH.textContent=l.log.title;
+  var fp=document.querySelector('label[for="fPeriod"]'); if(fp)fp.textContent=l.log.period;
+  var ft=document.querySelector('label[for="fType"]'); if(ft)ft.textContent=l.log.type;
+  var fs=document.querySelector('label[for="fSearch"]'); if(fs)fs.textContent=l.log.search;
+  var fsi=$("#fSearch"); if(fsi)fsi.placeholder=l.log.searchPh;
+  var be=$("#btnExport"); if(be)be.textContent=l.log.export;
+  var pSel=$("#fPeriod");
+  if(pSel){["today","week","month","all"].forEach(function(v,i){if(pSel.options[i])pSel.options[i].textContent=l.log.periods[v]})}
+  var tSel=$("#fType");
+  if(tSel&&tSel.options[0])tSel.options[0].textContent=l.log.allTypes;
+
+  var pH=document.querySelector("#v-prices .card:first-child .card-h h2"); if(pH)pH.textContent=l.prices.title;
+  var pP=document.querySelector("#v-prices .card:first-child .card-h p"); if(pP)pP.textContent=l.prices.hint;
+  var an=document.querySelector('#addType label[for="nName"]'); if(an)an.textContent=l.prices.newType;
+  var np=$("#nName"); if(np)np.placeholder=l.prices.newNamePh;
+  var ap=document.querySelector('#addType label[for="nPrice"]'); if(ap)ap.textContent=l.prices.price;
+  var ak=document.querySelector('#addType label[for="nKind"]'); if(ak)ak.textContent=l.prices.kind;
+  var addBtn=document.querySelector('#addType button[type="submit"]'); if(addBtn)addBtn.textContent=l.prices.add;
+  $("#nKind").innerHTML=kindOptions($("#nKind").value||"sedan");
+
+  var ss=$("#sShop"); if(ss&&ss.previousElementSibling&&ss.previousElementSibling.tagName==="LABEL")ss.previousElementSibling.textContent=l.prices.settings.shop;
+  var sc=$("#sCur"); if(sc&&sc.previousElementSibling&&sc.previousElementSibling.tagName==="LABEL")sc.previousElementSibling.textContent=l.prices.settings.cur;
+  if(sc){var hint=sc.parentElement.querySelector(".hint"); if(hint)hint.textContent=l.prices.settings.curHint}
+
+  var cards=document.querySelectorAll("#v-prices .card");
+  var bcard=cards[cards.length-1];
+  if(bcard){
+    var bh=bcard.querySelector("h2"); if(bh)bh.textContent=l.prices.backup.title;
+    var b1=$("#btnBackup"); if(b1)b1.textContent=l.prices.backup.save;
+    var b2=$("#btnRestore"); if(b2)b2.textContent=l.prices.backup.restore;
+  }
+
+  document.querySelectorAll(".st").forEach(function(b){
+    var isDone=b.classList.contains("done");
+    b.textContent=isDone?l.today.delivered:l.today.washing;
+  });
+
+  renderWashSelect();
+}
+
+function renderAll(){
+  renderHeader();renderStats();renderChips();renderToday();renderLogFilters();renderLog();renderPrices();renderSettings();
+  if(state.ready)renderHint();
+  applyLang();
+}
+
+/* ---------- views ---------- */
+var VIEWS=["today","log","prices"];
+function setView(v){
+  if(VIEWS.indexOf(v)<0)v="today";
+  state.view=v;
+  VIEWS.forEach(function(n){$("#v-"+n).hidden=(n!==v)});
+  document.querySelectorAll(".tabs a").forEach(function(a){
+    if(a.dataset.view===v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+  });
+}
+window.addEventListener("hashchange",function(){setView(location.hash.slice(1))});
+
+/* ---------- language toggle ---------- */
+$("#btnLang").addEventListener("click",function(){
+  state.settings.lang=(state.settings.lang==="en")?"ar":"en";
+  renderAll();
+  run(putSettings);
+});
+
+/* ---------- events ---------- */
+document.addEventListener("click",function(e){
+  var nav=e.target.closest("[data-view]");
+  if(nav){e.preventDefault();setView(nav.dataset.view);try{location.hash=nav.dataset.view}catch(x){}return}
+
+  var wrm=e.target.closest("[data-wash-remove]");
+  if(wrm){removeWash(wrm.getAttribute("data-wash-remove"));return}
+
+  var chip=e.target.closest("[data-type]");
+  if(chip){state.sel=chip.dataset.type;syncPrice();renderChips();return}
+
+  var tg=e.target.closest("[data-toggle]");
+  if(tg){
+    var w=state.washes.find(function(x){return x.id===tg.dataset.toggle});
+    if(w)run(function(){return patch("washes",w.id,{status:w.status==="done"?"wash":"done"})});
+    return;
+  }
+
+  var del=e.target.closest("[data-del]");
+  if(del){
+    var l=L();
+    if(del.dataset.armed){run(function(){return drop(del.dataset.coll,del.dataset.del)},l.common.deleted)}
+    else{
+      del.dataset.armed="1";del.classList.add("armed");del.textContent=l.common.confirmDel;
+      setTimeout(function(){if(del.isConnected){delete del.dataset.armed;del.classList.remove("armed");del.innerHTML=TRASH}},3000);
+    }
+    return;
+  }
+
+  if(e.target.id==="seedBtn"){
+    run(async function(){for(var t of defaultTypes())await put("types",t)},L().prices.seed);
+  }
+});
+
+$("#washPick").addEventListener("change",function(){addWash(this.value)});
+
+$("#price").addEventListener("input",renderHint);
+
+$("#form").addEventListener("submit",function(e){
+  e.preventDefault();
+  var l=L(),msg=$("#formMsg");msg.textContent="";
+  var plate=$("#plate").value.trim(),t=typeById(state.sel),price=parseFloat($("#price").value);
+  var washTypes=state.washSel.slice();
+  if(!plate){msg.textContent=l.form.errPlate;$("#plate").focus();return}
+  if(!t){msg.textContent=l.form.errType;return}
+  if(isNaN(price)||price<0){msg.textContent=l.form.errPrice;$("#price").focus();return}
+  var now=Date.now();
+  var w={id:uid("w"),plate:plate,customer:$("#customer").value.trim(),phone:$("#phone").value.trim(),notes:$("#notes").value.trim(),
+    typeId:t.id,typeName:t.name,kind:t.kind,price:price,status:"wash",ts:now,day:dayKey(now),washTypes:washTypes};
+  run(function(){return put("washes",w)},l.form.saved).then(function(ok){
+    if(ok){
+      ["#plate","#customer","#phone","#notes"].forEach(function(s){$(s).value=""});
+      state.washSel=[];renderWashSelect();syncPrice();$("#plate").focus();
+    }
+  });
+});
+
+["#fPeriod","#fType"].forEach(function(s){$(s).addEventListener("change",renderLog)});
+$("#fSearch").addEventListener("input",renderLog);
+
+$("#btnExport").addEventListener("click",async function(){
+  if(!dl)return;
+  var l=L(),th=l.log.th;
+  var q=function(v){return '"'+String(v==null?"":v).replace(/"/g,'""')+'"'};
+  var rows=[[th.date,th.time,th.plate,th.type,th.washType,th.customer,th.phone,th.price+" ("+state.settings.cur+")",th.status,th.notes]];
+  filteredWashes().forEach(function(w){
+    var wt=Array.isArray(w.washTypes)?w.washTypes.map(wName).join(" / "):wName(w.washType||"");
+    rows.push([dateFmt(w.ts),timeFmt(w.ts),w.plate,tName({kind:w.kind,name:w.typeName}),wt,w.customer,w.phone,num(w.price),w.status==="done"?l.today.delivered:l.today.washing,w.notes]);
+  });
+  var csv="\uFEFF"+rows.map(function(r){return r.map(q).join(",")}).join("\r\n");
+  try{await dl.save({filename:"carwash-"+dayKey(Date.now())+".csv",data:csv});toast(l.prices.backup.saved)}catch(err){if(!err||err.code!=="declined")toast(l.prices.backup.failed)}
+});
+
+$("#typeRows").addEventListener("change",function(e){
+  var el=e.target,row=el.closest(".prow");
+  if(!row||!el.dataset.f)return;
+  var id=row.dataset.id,f=el.dataset.f,v=el.value;
+  if(f==="price"){v=parseFloat(v);if(isNaN(v)||v<0){var t0=typeById(id);el.value=t0?t0.price:0;return}}
+  if(f==="name"){v=v.trim();if(!v){var t1=typeById(id);el.value=t1?t1.name:"";return}}
+  if(f==="kind")row.querySelector(".ic").innerHTML=icon(v);
+  var upd={};upd[f]=v;
+  if(f==="kind")upd.name=DEFAULT_NAMES.ar[v]||v;
+  run(function(){return patch("types",id,upd)},L().prices.saved);
+});
+$("#addType").addEventListener("submit",function(e){
+  e.preventDefault();
+  var l=L(),m=$("#typeMsg");m.textContent="";
+  var kind=$("#nKind").value,price=parseFloat($("#nPrice").value);
+  if(isNaN(price)||price<0){m.textContent=l.prices.errPrice;$("#nPrice").focus();return}
+  var now=Date.now();
+  run(function(){return put("types",{id:uid("t"),name:DEFAULT_NAMES.ar[kind]||kind,price:price,kind:kind,sort:now})},l.prices.added).then(function(ok){
+    if(ok){$("#nPrice").value="";$("#nPrice").focus()}
+  });
+});
+$("#nKind").innerHTML=kindOptions("sedan");
+
+$("#sShop").addEventListener("change",function(){
+  state.settings.shop=$("#sShop").value.trim()||"لمعة";
+  run(putSettings,L().prices.saved);
+});
+$("#sCur").addEventListener("change",function(){
+  var c=CURRENCIES.find(function(x){return x[0]===$("#sCur").value});
+  if(!c)return;
+  state.settings.cur=c[0];state.settings.dec=c[1];
+  run(putSettings,L().prices.saved);
+});
+document.addEventListener("visibilitychange",function(){if(!document.hidden){renderHeader();renderStats();renderToday();renderLog()}});
+
+/* ---------- boot ---------- */
+function subscribe(){
+  var left=3;
+  function got(){if(--left===0){state.ready=true;state.mode="db"}renderAll()}
+  function fail(){toast(L().common.toastLoadErr);if(!state.ready){state.ready=true}renderAll()}
+  db.collection("types").onSnapshot(function(s){
+    state.types=s.docs.map(function(d){return Object.assign({},d.data(),{id:d.id})});
+    sortAll();if(!subscribe.t){subscribe.t=1;got()}else renderAll();
+  },fail);
+  db.collection("washes").orderBy("ts","desc").limit(1000).onSnapshot(function(s){
+    state.washes=s.docs.map(function(d){return Object.assign({},d.data(),{id:d.id})});
+    sortAll();if(!subscribe.w){subscribe.w=1;got()}else renderAll();
+  },fail);
+  db.doc("settings/main").onSnapshot(function(s){
+    if(s.exists)Object.assign(state.settings,s.data());
+    if(!subscribe.s){subscribe.s=1;got()}else renderAll();
+  },fail);
+}
+
+/* ---------- data file on disk ---------- */
+var fh=null, fileTimer=null, writing=false, again=false;
+var fsOK=("showSaveFilePicker" in window)&&("showOpenFilePicker" in window);
+var FT=[{description:"ملف بيانات المغسلة",accept:{"application/json":[".json"]}}];
+function hOpen(){return new Promise(function(res,rej){var r=indexedDB.open("lamaa-fs",1);r.onupgradeneeded=function(){r.result.createObjectStore("h")};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
+function hGet(){return hOpen().then(function(d){return new Promise(function(res){var q=d.transaction("h").objectStore("h").get("fh");q.onsuccess=function(){res(q.result||null)};q.onerror=function(){res(null)}})}).catch(function(){return null})}
+function hSet(v){return hOpen().then(function(d){d.transaction("h","readwrite").objectStore("h").put(v,"fh")}).catch(function(){})}
+function payload(){return JSON.stringify({app:"lamaa-carwash",version:1,savedAt:Date.now(),types:state.types,washes:state.washes,settings:state.settings},null,1)}
+function banner(kind,name){
+  var b=$("#fileBanner");
+  if(!kind){b.hidden=true;return}
+  var t=$("#bnText");
+  $("#bnCreate").hidden=kind!=="choose";$("#bnOpen").hidden=kind!=="choose";$("#bnPerm").hidden=kind!=="perm";
+  if(kind==="choose")t.textContent="اختر مكان ملف البيانات على جهازك مرة واحدة، وبعدها يُحفظ كل تسجيل وتعديل فيه تلقائياً ويُقرأ منه عند فتح البرنامج.";
+  else if(kind==="perm")t.textContent="اضغط للسماح بالحفظ في الملف ("+name+") ومتابعة العمل منه. هذا يطلبه المتصفح عند كل فتح.";
+  else if(kind==="error")t.textContent="تعذّر الكتابة في ملف البيانات"+(name?" ("+name+")":"")+". البيانات ما زالت محفوظة في المتصفح. اربط الملف من جديد.";
+  else t.textContent="هذا المتصفح لا يدعم الحفظ المباشر في ملف. استخدم Chrome أو Edge. البيانات محفوظة في المتصفح، ويمكنك حفظ نسخة احتياطية.";
+  b.hidden=false;
+  if(kind==="error"){$("#bnCreate").hidden=false;$("#bnOpen").hidden=false;$("#bnPerm").hidden=true}
+  if(kind==="nosupport"){$("#bnCreate").hidden=true;$("#bnOpen").hidden=true;$("#bnPerm").hidden=true}
+}
+async function flush(){
+  if(!fh)return;
+  if(writing){again=true;return}
+  writing=true;
+  try{
+    do{again=false;var w=await fh.createWritable();await w.write(payload());await w.close()}while(again);
+  }catch(e){banner("error",fh&&fh.name)}
+  finally{writing=false}
+}
+function writeSoon(){clearTimeout(fileTimer);fileTimer=setTimeout(flush,150)}
+async function readFile(h){
+  var f=await h.getFile(),t=await f.text();
+  if(!t.trim())return null;
+  var d=JSON.parse(t);
+  if(!d||typeof d!=="object"||!Array.isArray(d.washes)||!Array.isArray(d.types))throw new Error("bad file");
+  return d;
+}
+function replaceData(d){
+  state.types=Array.isArray(d.types)?d.types:[];
+  state.washes=Array.isArray(d.washes)?d.washes:[];
+  if(d.settings&&typeof d.settings==="object")Object.assign(state.settings,d.settings);
+  sortAll();lsWrite();renderAll();
+}
+function mergeData(d){
+  ["types","washes"].forEach(function(k){
+    (Array.isArray(d[k])?d[k]:[]).forEach(function(o){
+      if(!o||!o.id)return;
+      var i=state[k].findIndex(function(x){return x.id===o.id});
+      if(i>=0)state[k][i]=o;else state[k].push(o);
+    });
+  });
+  if(d.settings&&typeof d.settings==="object")Object.assign(state.settings,d.settings);
+  sortAll();lsWrite();renderAll();
+}
+async function askPerm(h){
+  var o={mode:"readwrite"};
+  if((await h.queryPermission(o))==="granted")return true;
+  return (await h.requestPermission(o))==="granted";
+}
+async function connect(h,how){
+  var d=await readFile(h);
+  if(!d){fh=h}
+  else if(how==="open"){if(state.washes.length)mergeData(d);else replaceData(d);fh=h}
+  else if(how==="reconnect"){var loc=lsRead();if(loc&&(loc.savedAt||0)>(d.savedAt||0))mergeData(d);else replaceData(d);fh=h}
+  else{replaceData(d);fh=h}
+  await hSet(h);
+  banner(null);renderAll();
+  await flush();
+}
+function armSilent(h){
+  var done=false;
+  async function go(){
+    if(done)return;done=true;
+    document.removeEventListener("click",go,true);document.removeEventListener("keydown",go,true);
+    try{
+      if(await askPerm(h))await connect(h,"reconnect");
+      else banner("perm",h.name);
+    }catch(e){banner("perm",h.name)}
+  }
+  document.addEventListener("click",go,true);document.addEventListener("keydown",go,true);
+}
+async function restoreHandle(){
+  if(!fsOK){banner("nosupport");return}
+  var h=await hGet();
+  if(!h){banner("choose");return}
+  try{
+    if((await h.queryPermission({mode:"readwrite"}))==="granted")await connect(h,"startup");
+    else armSilent(h);
+  }catch(e){banner("error",h&&h.name)}
+}
+$("#bnCreate").addEventListener("click",async function(){
+  try{
+    var h=await window.showSaveFilePicker({suggestedName:"carwash-data.json",types:FT});
+    fh=h;await hSet(h);banner(null);renderAll();await flush();
+  }catch(e){if(!e||e.name!=="AbortError")toast("تعذّر إنشاء الملف.")}
+});
+$("#bnOpen").addEventListener("click",async function(){
+  try{
+    var r=await window.showOpenFilePicker({types:FT,multiple:false}),h=r[0];
+    if(!(await askPerm(h)))return;
+    await connect(h,"open");
+  }catch(e){if(!e||e.name!=="AbortError")toast("تعذّر فتح الملف.")}
+});
+$("#bnPerm").addEventListener("click",async function(){
+  try{
+    var h=await hGet();if(!h)return;
+    if(!(await askPerm(h)))return;
+    await connect(h,"reconnect");
+  }catch(e){banner("error",null)}
+});
+document.addEventListener("visibilitychange",function(){if(document.hidden&&fh){clearTimeout(fileTimer);flush()}});
+
+/* backup / restore */
+function downloadText(name,text){
+  var a=document.createElement("a"),u=URL.createObjectURL(new Blob([text],{type:"application/json"}));
+  a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1000);
+}
+$("#btnBackup").addEventListener("click",async function(){
+  var l=L(),name="carwash-backup-"+dayKey(Date.now())+".json",st=$("#backupStatus");
+  try{
+    if(fsOK){
+      var h=await window.showSaveFilePicker({suggestedName:name,types:FT});
+      var w=await h.createWritable();await w.write(payload());await w.close();
+      st.textContent=l.prices.backup.saved+h.name;
+    }else{downloadText(name,payload());st.textContent=l.prices.backup.downloaded+name}
+    toast(l.prices.backup.save);
+  }catch(e){if(!e||e.name!=="AbortError"){st.textContent=l.prices.backup.failed;toast(l.prices.backup.failed)}}
+});
+function offerRestore(d){
+  var box=$("#restoreBox"),l=L();
+  var when=d.savedAt?dateFmt(d.savedAt)+" "+timeFmt(d.savedAt):"غير معروف";
+  var msg=l.prices.backup.confirmAr(state.washes.length,d,when);
+  box.innerHTML=msg+'<div class="btnrow"><button type="button" class="btn sm" id="rsGo">'+l.prices.backup.go+'</button><button type="button" class="btn sm ghost" id="rsNo">'+l.prices.backup.no+'</button></div>';
+  box.hidden=false;
+  $("#rsNo").onclick=function(){box.hidden=true;box.innerHTML=""};
+  $("#rsGo").onclick=async function(){
+    replaceData(d);box.hidden=true;box.innerHTML="";
+    if(fh)await flush();
+    $("#backupStatus").textContent=l.prices.backup.restored;toast(l.prices.backup.restored);
+  };
+}
+function parseBackup(text){
+  var d=JSON.parse(text);
+  if(!d||typeof d!=="object"||!Array.isArray(d.washes)||!Array.isArray(d.types))throw new Error("bad");
+  return d;
+}
+$("#btnRestore").addEventListener("click",async function(){
+  var l=L(),st=$("#backupStatus");st.textContent="";
+  try{
+    if(fsOK){
+      var r=await window.showOpenFilePicker({types:FT,multiple:false});
+      var f=await r[0].getFile();offerRestore(parseBackup(await f.text()));
+    }else $("#restoreInput").click();
+  }catch(e){if(!e||e.name!=="AbortError")st.textContent=l.prices.backup.invalid}
+});
+$("#restoreInput").addEventListener("change",function(){
+  var f=this.files&&this.files[0];this.value="";if(!f)return;
+  var rd=new FileReader();
+  rd.onload=function(){try{offerRestore(parseBackup(rd.result))}catch(e){$("#backupStatus").textContent=L().prices.backup.invalid}};
+  rd.readAsText(f);
+});
+
+
+/* ---------- الفترة التجريبية ---------- */
+var TRIAL_DAYS=5, TRIAL_PHONE="95209623", TK="lamaa-trial-v1";
+function tOpen(){return new Promise(function(res,rej){var r=indexedDB.open("lamaa-trial",1);r.onupgradeneeded=function(){r.result.createObjectStore("t")};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
+function tGet(){return tOpen().then(function(d){return new Promise(function(res){var q=d.transaction("t").objectStore("t").get("s");q.onsuccess=function(){res(q.result||null)};q.onerror=function(){res(null)}})}).catch(function(){return null})}
+function tSet(v){return tOpen().then(function(d){return new Promise(function(res){var tx=d.transaction("t","readwrite");tx.objectStore("t").put(v,"s");tx.oncomplete=res;tx.onerror=res})}).catch(function(){})}
+function tLs(){try{return JSON.parse(localStorage.getItem(TK)||"null")}catch(e){return null}}
+
+async function wipeAll(){
+  try{localStorage.removeItem(LS)}catch(e){}
+  try{await idbWrite(null)}catch(e){}
+  try{
+    var h=await hGet();
+    if(h&&(await h.queryPermission({mode:"readwrite"}))==="granted"){
+      var w=await h.createWritable();await w.write("{}");await w.close();
+    }
+  }catch(e){}
+  try{await hSet(null)}catch(e){}
+}
+
+function showExpired(){
+  if(document.getElementById("trialEnd"))return;
+  var o=document.createElement("div");
+  o.id="trialEnd";
+  o.setAttribute("role","alertdialog");
+  o.style.cssText="position:fixed;inset:0;z-index:99999;background:var(--bg);color:var(--ink);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-family:var(--f-body)";
+  o.innerHTML='<div style="max-width:420px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px">'+
+    '<h2 style="font-size:22px;margin-bottom:12px">انتهت التجربة المجانية</h2>'+
+    '<p style="margin:0 0 6px">لشراء البرنامج تواصل مع الرقم</p>'+
+    '<p style="margin:0 0 18px"><a href="tel:'+TRIAL_PHONE+'" dir="ltr" style="font:700 28px var(--f-display);text-decoration:none">'+TRIAL_PHONE+'</a></p>'+
+    '<p class="muted" style="margin:0;font-size:13px" dir="ltr">Free trial has ended. To purchase, contact '+TRIAL_PHONE+'</p></div>';
+  document.body.appendChild(o);
+  var w=document.querySelector(".wrap");if(w)w.setAttribute("inert","");
+}
+
+/* يرجع true إذا انتهت التجربة */
+async function trialCheck(){
+  var now=Date.now(),a=tLs(),b=await tGet();
+  var starts=[a,b].filter(Boolean).map(function(x){return x.start}).filter(Boolean);
+  var start=starts.length?Math.min.apply(null,starts):now;
+  var last=Math.max(now,(a&&a.last)||0,(b&&b.last)||0);   /* يكشف إرجاع ساعة الجهاز للخلف */
+  var was=!!((a&&a.expired)||(b&&b.expired));
+  var expired=was||(last-start>=TRIAL_DAYS*864e5);
+  var rec={start:start,last:last,expired:expired};
+  try{localStorage.setItem(TK,JSON.stringify(rec))}catch(e){}
+  await tSet(rec);
+  if(expired){
+    clearTimeout(fileTimer);fh=null;db=null;
+    if(!was)await wipeAll();
+    showExpired();
+    return true;
+  }
+  trialCheck.left=Math.max(1,Math.ceil((TRIAL_DAYS*864e5-(last-start))/864e5));
+  return false;
+}
+setInterval(function(){trialCheck()},60000);
+
+
+
+async function init(){
+  if(await trialCheck())return; 
+  setView(location.hash.slice(1));
+  renderAll();
+  var d=null;
+  try{if(window.claude&&window.claude.use)d=await window.claude.use("db")}catch(e){d=null}
+  try{if(window.claude&&window.claude.use)dl=await window.claude.use("downloads")}catch(e){dl=null}
+  if(d){db=d;state.mode="db";subscribe();state.mode="db"}
+  else{
+    state.mode="local";
+    var saved=lsRead();
+    var fromIdb=await idbRead();
+    if(fromIdb&&(!saved||(fromIdb.savedAt||0)>(saved.savedAt||0)))saved=fromIdb;
+    if(saved){state.types=saved.types||[];state.washes=saved.washes||[];Object.assign(state.settings,saved.settings||{})}
+    else{state.types=defaultTypes()}
+    sortAll();renderHeader();
+    await restoreHandle();
+    state.ready=true;renderAll();
+    if(!saved&&!fh)lsWrite();
+    try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()
+      toast("التجربة المجانية: متبقي "+trialCheck.left+" يوم");
+    }catch(e){}
+  }
+}
+init();
+})();
+
+
+/* ============================================================
+   تثبيت التطبيق (PWA)
+   ============================================================ */
+let deferredInstallPrompt = null;
+
+const isStandalone = () =>
+  window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+function showInstallBar() {
+  if (isStandalone()) return;
+  document.getElementById('installBar').classList.add('show');
+  document.body.classList.add('has-install-bar');
+}
+
+function hideInstallBar() {
+  document.getElementById('installBar').classList.remove('show');
+  document.body.classList.remove('has-install-bar');
+}
+
+// أندرويد / كروم / إيدج
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  showInstallBar();
+});
+
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    hideInstallBar(false);
+  } else if (isIOS()) {
+    alert('لتثبيت التطبيق على الآيفون:\nاضغط زر المشاركة ⬆️ في سفاري\nثم اختر "إضافة إلى الشاشة الرئيسية"');
+  }
+});
+
+window.addEventListener('appinstalled', () => hideInstallBar(false));
+
+// آيفون: لا يوجد beforeinstallprompt، فنعرض الشريط يدوياً
+if (isIOS() && !isStandalone()) {
+  document.getElementById('installText').textContent = '📲 للتثبيت: مشاركة ⬆️ ← إضافة إلى الشاشة الرئيسية';
+  document.getElementById('installBtn').textContent = 'كيف؟';
+  setTimeout(showInstallBar, 2500);
+}
+
+// تسجيل الـ Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('SW error:', err));
+  });
+}
+</script>
+</body>
+</html>
