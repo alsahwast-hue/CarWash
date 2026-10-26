@@ -1386,15 +1386,25 @@ async function wipeAll(){
 
 function showExpired(){
   if(document.getElementById("trialEnd"))return;
+  var wa="968"+TRIAL_PHONE;   /* 968 = رمز عُمان */
+  var msg="مرحباً\n"+
+    "أريد شراء برنامج: مغسلة السيارات\n\n"+
+    "المبلغ:\n"+
+    "- 40 ريال عماني: لجهاز واحد\n"+
+    "- 80 ريال عماني: برنامج يعمل أونلاين من أي جهاز\n\n"+
+    "تاريخ الطلب: "+dateFmt(Date.now());
+  var link="https://wa.me/"+wa+"?text="+encodeURIComponent(msg);
+  var WA='<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.7A8.5 8.5 0 1 1 8 19.5L3 21Z"/><path d="M9 8.5c0 3.3 2.7 6 6 6l1.2-1.4-2-1-.9.7a3.6 3.6 0 0 1-1.6-1.6l.7-.9-1-2L9 8.5Z"/></svg>';
   var o=document.createElement("div");
   o.id="trialEnd";
   o.setAttribute("role","alertdialog");
   o.style.cssText="position:fixed;inset:0;z-index:99999;background:var(--bg);color:var(--ink);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-family:var(--f-body)";
-  o.innerHTML='<div style="max-width:420px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px">'+
+  o.innerHTML='<div style="max-width:420px;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px">'+
     '<h2 style="font-size:22px;margin-bottom:12px">انتهت التجربة المجانية</h2>'+
     '<p style="margin:0 0 6px">لشراء البرنامج تواصل مع الرقم</p>'+
     '<p style="margin:0 0 18px"><a href="tel:'+TRIAL_PHONE+'" dir="ltr" style="font:700 28px var(--f-display);text-decoration:none">'+TRIAL_PHONE+'</a></p>'+
-    '<p class="muted" style="margin:0;font-size:13px" dir="ltr">Free trial has ended. To purchase, contact '+TRIAL_PHONE+'</p></div>';
+    '<a href="'+link+'" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:10px;height:50px;border-radius:12px;background:#25D366;color:#fff;font:600 16px var(--f-body);text-decoration:none">'+WA+'<span>إرسال طلب عبر واتساب</span></a>'+
+    '<p class="muted" style="margin:16px 0 0;font-size:13px" dir="ltr">Free trial has ended. To purchase, contact '+TRIAL_PHONE+'</p></div>';
   document.body.appendChild(o);
   var w=document.querySelector(".wrap");if(w)w.setAttribute("inert","");
 }
