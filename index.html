@@ -278,6 +278,26 @@ h1{font-size:clamp(22px,4.5vw,30px)}
 }
 .brand{flex-wrap:nowrap}
 #btnLang{align-self:center;margin-inline-start:4px;font-weight:600}
+
+/* الفاتورة */
+#invModal{position:fixed;inset:0;z-index:25;background:rgba(0,0,0,.55);overflow:auto;padding:16px;display:flex}
+.inv-box{background:var(--surface);border-radius:var(--r);padding:14px;width:100%;max-width:560px;margin:auto}
+#invImg{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:8px}
+.inv-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.inv-actions .btn{flex:1 1 0}
+.icon-btn.inv:hover{color:var(--accent);border-color:var(--accent)}
+@page{size:A5;margin:0}
+@media print{
+  body>*:not(#invModal){display:none!important}
+  body{padding:0!important;background:#fff}
+  #invModal{position:static;background:none;padding:0;display:block;overflow:visible}
+  .inv-box{padding:0;max-width:none;border-radius:0;background:none}
+  #invImg{border:0;border-radius:0}
+  .inv-actions{display:none!important}
+}
+
+
+
 /* ===== زر تثبيت التطبيق (أسفل النافذة) ===== */
 /* ===== زر تثبيت التطبيق (أسفل النافذة) ===== */
 #installBar {
@@ -441,6 +461,17 @@ body.has-install-bar { padding-bottom: 80px; }
 </div>
 <div id="toast" role="status" aria-live="polite" hidden></div>
 
+
+<div id="invModal" hidden role="dialog" aria-modal="true">
+  <div class="inv-box">
+    <img id="invImg" alt="">
+    <div class="inv-actions">
+      <button type="button" class="btn sm" id="invPrint">طباعة</button>
+      <button type="button" class="btn sm" id="invSend">إرسال PDF</button>
+      <button type="button" class="btn sm ghost" id="invClose">إغلاق</button>
+    </div>
+  </div>
+</div>
 
 
 <!-- ============ شريط تثبيت التطبيق ============ -->
@@ -734,7 +765,7 @@ function washRow(w){
     (extra.length?'<div class="muted ws">'+extra.join(" · ")+'</div>':'')+'</div>'+
     '<div class="wprice">'+money(w.price)+'</div>'+
     '<div class="wact"><button type="button" class="st '+(w.status==="done"?"done":"wash")+'" data-toggle="'+esc(w.id)+'" title="'+l.today.hint+'">'+(w.status==="done"?l.today.delivered:l.today.washing)+'</button>'+
-    '<button type="button" class="icon-btn" data-coll="washes" data-del="'+esc(w.id)+'">'+TRASH+'</button></div></div>';
+    invBtn(w)+'<button type="button" class="icon-btn" data-coll="washes" data-del="'+esc(w.id)+'">'+TRASH+'</button></div></div>';
 }
 
 function renderToday(){
@@ -785,7 +816,7 @@ function renderLog(){
         '<td>'+esc(w.customer||"")+(w.phone?' <bdi class="muted">'+esc(w.phone)+'</bdi>':'')+'</td>'+
         '<td class="n">'+money(w.price)+'</td>'+
         '<td><button type="button" class="st '+(w.status==="done"?"done":"wash")+'" data-toggle="'+esc(w.id)+'">'+(w.status==="done"?l.today.delivered:l.today.washing)+'</button></td>'+
-        '<td><button type="button" class="icon-btn" data-coll="washes" data-del="'+esc(w.id)+'">'+TRASH+'</button></td></tr>';
+       '<td style="white-space:nowrap">'+invBtn(w)+' <button type="button" class="icon-btn" data-coll="washes" data-del="'+esc(w.id)+'">'+TRASH+'</button></td></tr>';
     }).join("")+'</tbody></table></div>';
 }
 
@@ -934,6 +965,8 @@ document.addEventListener("click",function(e){
     return;
   }
 
+  var inv=e.target.closest("[data-invoice]");
+  if(inv){openInvoice(inv.dataset.invoice);return}
   var del=e.target.closest("[data-del]");
   if(del){
     var l=L();
@@ -1205,6 +1238,131 @@ $("#restoreInput").addEventListener("change",function(){
   rd.onload=function(){try{offerRestore(parseBackup(rd.result))}catch(e){$("#backupStatus").textContent=L().prices.backup.invalid}};
   rd.readAsText(f);
 });
+
+
+/* ---------- الفاتورة ---------- */
+var INV={
+  ar:{rtl:true,title:"فاتورة",sub:"سجل غسيل السيارات",no:"رقم الفاتورة",date:"التاريخ",cust:"بيانات الزبون",name:"الاسم",phone:"الهاتف",veh:"بيانات المركبة",plate:"رقم اللوحة",type:"نوع المركبة",svc:"الخدمة",price:"السعر",total:"الإجمالي",notes:"ملاحظات",thanks:"شكراً لزيارتكم",print:"طباعة",send:"إرسال PDF",close:"إغلاق",btn:"طباعة فاتورة"},
+  en:{rtl:false,title:"INVOICE",sub:"Car Wash",no:"Invoice No.",date:"Date",cust:"Customer",name:"Name",phone:"Phone",veh:"Vehicle",plate:"Plate Number",type:"Vehicle Type",svc:"Service",price:"Price",total:"Total",notes:"Notes",thanks:"Thank you for your visit",print:"Print",send:"Send PDF",close:"Close",btn:"Print invoice"}
+};
+var PRINTER='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="7" y="14" width="10" height="7" rx="1"/></svg>';
+function invBtn(w){return '<button type="button" class="icon-btn inv" data-invoice="'+esc(w.id)+'" title="'+INV[state.settings.lang==="en"?"en":"ar"].btn+'">'+PRINTER+'</button>'}
+function invNo(w){return "INV-"+String(w.day||dayKey(w.ts)).replace(/-/g,"")+"-"+String(w.ts).slice(-4)}
+
+function drawInvoice(w){
+  var I=INV[state.settings.lang==="en"?"en":"ar"],rtl=I.rtl;
+  var W=874,H=1240,M=56,c=document.createElement("canvas");c.width=W;c.height=H;
+  var x=c.getContext("2d"),F='"Segoe UI","Noto Sans Arabic","Geeza Pro",Tahoma,sans-serif';
+  var TEAL="#00808F",INK="#0D2830",GR="#4B646B";
+  var S=rtl?W-M:M,E=rtl?M:W-M,A1=rtl?"right":"left",A2=rtl?"left":"right";
+  x.fillStyle="#fff";x.fillRect(0,0,W,H);
+  x.direction=rtl?"rtl":"ltr";x.textBaseline="alphabetic";
+  function fit(s,max,font){x.font=font;s=String(s==null?"":s);if(x.measureText(s).width<=max)return s;
+    while(s.length>1&&x.measureText(s+"…").width>max)s=s.slice(0,-1);return s+"…"}
+  function t(s,px,y,al,sz,wt,col,max){var f=(wt||400)+" "+sz+"px "+F;x.font=f;x.fillStyle=col||INK;x.textAlign=al;
+    x.fillText(max?fit(s,max,f):String(s),px,y)}
+  function kv(a,b,y){t(a,S,y,A1,20,400,GR);t(b||"-",E,y,A2,22,600,INK,520)}
+  function head(s,y){t(s,S,y,A1,22,700,TEAL);x.fillStyle="#D2E0E3";x.fillRect(M,y+12,W-2*M,2)}
+
+  /* الشعار */
+  var lx=rtl?W-M-84:M,ly=44;
+  x.fillStyle=TEAL;x.beginPath();if(x.roundRect)x.roundRect(lx,ly,84,84,24);else x.rect(lx,ly,84,84);x.fill();
+  x.save();x.translate(lx+21,ly+21);x.scale(42/24,42/24);
+  x.strokeStyle="#fff";x.lineWidth=1.9;x.lineCap="round";x.lineJoin="round";
+  x.stroke(new Path2D("M12 3.2c3.6 4.2 6 7.1 6 10.3a6 6 0 0 1-12 0c0-3.2 2.4-6.1 6-10.3Z"));
+  x.stroke(new Path2D("M9 14.2a3.2 3.2 0 0 0 3 2.3"));
+  x.restore();
+  var tx=rtl?lx-18:lx+84+18;
+  t(state.settings.shop||I.title,tx,86,A1,38,700,INK,400);
+  t(I.sub,tx,118,A1,20,400,GR,400);
+
+  /* العنوان + الرقم والتاريخ */
+  t(I.title,E,78,A2,34,700,TEAL);
+  t(I.no+": "+invNo(w),E,106,A2,18,400,GR);
+  t(I.date+": "+dateFmt(w.ts)+" "+timeFmt(w.ts),E,132,A2,18,400,GR);
+  x.fillStyle=TEAL;x.fillRect(M,160,W-2*M,3);
+
+  /* بيانات الزبون */
+  head(I.cust,214);
+  kv(I.name,w.customer,262);kv(I.phone,w.phone,304);
+
+  /* بيانات المركبة */
+  head(I.veh,380);
+  kv(I.plate,w.plate,428);kv(I.type,tName({kind:w.kind,name:w.typeName}),470);
+
+  /* الخدمة */
+  x.fillStyle="#F2F7F8";x.fillRect(M,540,W-2*M,46);
+  t(I.svc,S,570,A1,20,600,GR);t(I.price,E,570,A2,20,600,GR);
+  var list=(Array.isArray(w.washTypes)&&w.washTypes.length?w.washTypes:(w.washType?[w.washType]:[])).map(wName).slice(0,9);
+  var y=626;
+  if(!list.length)list=["-"];
+  list.forEach(function(n){t(n,S,y,A1,22,500,INK,W-2*M-200);x.fillStyle="#E3ECEE";x.fillRect(M,y+14,W-2*M,1);y+=46});
+  if(w.notes){t(I.notes+": "+w.notes,S,y+6,A1,18,400,GR,W-2*M);y+=40}
+
+  /* الإجمالي */
+  var ty=Math.max(y+30,900);
+  x.fillStyle=TEAL;x.fillRect(M,ty,W-2*M,84);
+  t(I.total,S+(rtl?-22:22),ty+53,A1,26,600,"#fff");
+  t(num(w.price)+" "+state.settings.cur,E+(rtl?22:-22),ty+55,A2,34,700,"#fff");
+
+  t(I.thanks,W/2,H-64,"center",20,400,GR);
+  return c;
+}
+
+function jpegToPdf(jpg,iw,ih,pw,ph){
+  var enc=new TextEncoder(),parts=[],offs=[0],len=0;
+  function add(v){var b=typeof v==="string"?enc.encode(v):v;parts.push(b);len+=b.length}
+  function begin(n){offs[n]=len;add(n+" 0 obj\n")}
+  add("%PDF-1.4\n");
+  begin(1);add("<</Type/Catalog/Pages 2 0 R>>\nendobj\n");
+  begin(2);add("<</Type/Pages/Kids[3 0 R]/Count 1>>\nendobj\n");
+  begin(3);add("<</Type/Page/Parent 2 0 R/MediaBox[0 0 "+pw+" "+ph+"]/Resources<</XObject<</Im0 4 0 R>>>>/Contents 5 0 R>>\nendobj\n");
+  begin(4);add("<</Type/XObject/Subtype/Image/Width "+iw+"/Height "+ih+"/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length "+jpg.length+">>\nstream\n");add(jpg);add("\nendstream\nendobj\n");
+  var cs="q "+pw+" 0 0 "+ph+" 0 0 cm /Im0 Do Q";
+  begin(5);add("<</Length "+cs.length+">>\nstream\n"+cs+"\nendstream\nendobj\n");
+  var xr=len;add("xref\n0 6\n0000000000 65535 f \n");
+  for(var i=1;i<=5;i++)add(("0000000000"+offs[i]).slice(-10)+" 00000 n \n");
+  add("trailer\n<</Size 6/Root 1 0 R>>\nstartxref\n"+xr+"\n%%EOF");
+  return new Blob(parts,{type:"application/pdf"});
+}
+async function invoicePdf(w){
+  var c=drawInvoice(w);
+  var b=await new Promise(function(r){c.toBlob(r,"image/jpeg",0.92)});
+  return jpegToPdf(new Uint8Array(await b.arrayBuffer()),c.width,c.height,420,595);
+}
+
+var curInv=null;
+function openInvoice(id){
+  var w=state.washes.find(function(x){return x.id===id});if(!w)return;
+  curInv=w;var I=INV[state.settings.lang==="en"?"en":"ar"];
+  $("#invImg").src=drawInvoice(w).toDataURL("image/png");
+  $("#invPrint").textContent=I.print;$("#invSend").textContent=I.send;$("#invClose").textContent=I.close;
+  $("#invModal").hidden=false;document.body.style.overflow="hidden";
+}
+function closeInvoice(){$("#invModal").hidden=true;document.body.style.overflow="";curInv=null}
+$("#invClose").addEventListener("click",closeInvoice);
+$("#invModal").addEventListener("click",function(e){if(e.target===this)closeInvoice()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&curInv)closeInvoice()});
+$("#invPrint").addEventListener("click",function(){window.print()});
+$("#invSend").addEventListener("click",async function(){
+  if(!curInv)return;
+  var btn=this;btn.disabled=true;
+  try{
+    var blob=await invoicePdf(curInv),name=invNo(curInv)+".pdf";
+    var f=new File([blob],name,{type:"application/pdf"});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){
+      try{await navigator.share({files:[f],title:name});btn.disabled=false;return}
+      catch(e){if(e&&e.name==="AbortError"){btn.disabled=false;return}}
+    }
+    var a=document.createElement("a"),u=URL.createObjectURL(blob);
+    a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(u)},2000);
+    toast(name);
+  }catch(e){toast("تعذّر إنشاء ملف PDF / Could not create PDF")}
+  btn.disabled=false;
+});
+
+
 
 
 /* ---------- الفترة التجريبية ---------- */
