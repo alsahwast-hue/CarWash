@@ -240,13 +240,14 @@ h1{font-size:clamp(22px,4.5vw,30px)}
     padding:12px;margin-bottom:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2)}
   td,tr:last-child td{display:block;padding:0;border:0;min-width:0}
   td:empty{display:none}
-  td:nth-child(1){grid-column:1/-1;order:0;font-size:13px}
-  td:nth-child(2){order:1}
-  td:nth-child(6){order:2;justify-self:end}
-  td:nth-child(3),td:nth-child(4),td:nth-child(5){grid-column:1/-1}
-  td:nth-child(3){order:3}td:nth-child(4){order:4}td:nth-child(5){order:5}
-  td:nth-child(7){order:6}
-  td:nth-child(8){order:7;justify-self:end}
+ td:nth-child(1){grid-column:1/-1;order:0;font-size:13px}
+  td:nth-child(2){order:1;font-size:12px;color:var(--ink-2)}
+  td:nth-child(3){order:2}
+  td:nth-child(7){order:3;justify-self:end}
+  td:nth-child(4),td:nth-child(5),td:nth-child(6){grid-column:1/-1}
+  td:nth-child(4){order:4}td:nth-child(5){order:5}td:nth-child(6){order:6}
+  td:nth-child(8){order:7}
+  td:nth-child(9){order:8;justify-self:end}
 }
 
 /* جوال صغير */
@@ -295,6 +296,62 @@ h1{font-size:clamp(22px,4.5vw,30px)}
   #invImg{border:0;border-radius:0}
   .inv-actions{display:none!important}
 }
+/* ===== بيانات الشركة ===== */
+#companyModal{position:fixed;inset:0;z-index:1600;background:rgba(0,0,0,.55);display:flex;padding:16px;overflow:auto}
+#companyModal[hidden]{display:none!important}
+.cm-box{background:var(--surface);border-radius:var(--r);padding:20px;width:100%;max-width:560px;margin:auto}
+.cm-box h2{margin:0 0 14px}
+.cm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cm-grid .full{grid-column:1/-1}
+.logo-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:6px}
+.logo-drop{position:relative;border:2px dashed var(--line);border-radius:12px;padding:14px;text-align:center;cursor:pointer;background:var(--surface-2);min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:border-color .15s}
+.logo-drop:hover{border-color:var(--accent)}
+.logo-drop img{max-width:100%;max-height:90px;display:block}
+.logo-drop .ph{font-size:13px;color:var(--ink-2)}
+.logo-drop input[type=file]{display:none}
+.logo-drop .rm{position:absolute;top:6px;inset-inline-end:6px;width:26px;height:26px;border-radius:50%;border:0;background:var(--danger);color:#fff;cursor:pointer;font-size:16px;line-height:1;display:none;align-items:center;justify-content:center}
+.logo-drop.has .rm{display:inline-flex}
+.cm-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.cm-actions .btn{flex:1 1 0}
+#btnCompany{align-self:center;margin-inline-start:4px;font-weight:600}
+@media (max-width:520px){.cm-grid{grid-template-columns:minmax(0,1fr)}.logo-row{grid-template-columns:minmax(0,1fr)}}
+/* ===== نافذة تسجيل الدخول ===== */
+#loginScreen{position:fixed;inset:0;z-index:1500;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+.lg-card{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;margin:auto}
+.lg-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:22px}
+.lg-brand{display:flex;align-items:center;gap:12px;min-width:0}
+.lg-brand h1{font-size:24px}
+input[type=password]{direction:ltr;text-align:right}
+.lg-hint{font-size:12.5px;color:var(--ink-2);margin:0}
+.st.ready{background:var(--accent-soft);color:var(--accent)}
+/* ===== Loading Overlay ===== */
+#loadingOverlay{
+  position:fixed; inset:0; z-index:5000;
+  background:rgba(8,23,28,.45);
+  backdrop-filter:blur(2px);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:opacity .18s ease;
+}
+#loadingOverlay.show{opacity:1; pointer-events:auto}
+#loadingOverlay .spinner{
+  width:56px;height:56px;border-radius:50%;
+  border:4px solid rgba(255,255,255,.25);
+  border-top-color:#fff;
+  animation:spin .8s linear infinite;
+  box-shadow:0 4px 24px rgba(0,0,0,.25);
+}
+#loadingOverlay .spinner-label{
+  margin-top:12px;color:#fff;font:600 14px var(--f-body);
+  text-align:center;text-shadow:0 1px 2px rgba(0,0,0,.35);
+}
+#loadingOverlay .spinner-wrap{display:flex;flex-direction:column;align-items:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* لون مناسب للوضع الفاتح */
+@media (prefers-color-scheme: light){
+  #loadingOverlay{background:rgba(13,40,48,.35)}
+}
 
 
 
@@ -323,22 +380,25 @@ body.has-install-bar #bookConfirmBar { bottom: 62px; }
   font-family: 'Cairo', sans-serif; font-size: 14px;
 }
 body.has-install-bar { padding-bottom: 80px; }
+
+
 </style>
 </head><body>
 <script>document.documentElement.lang="ar";document.documentElement.dir="rtl";</script>
 
-<div class="wrap" dir="rtl" lang="ar">
+<div class="wrap" id="appWrap" dir="rtl" lang="ar" hidden>
   <header class="top">
         <div class="brand">
-      <div class="mark" aria-hidden="true">...</div>
+      <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c3.6 4.2 6 7.1 6 10.3a6 6 0 0 1-12 0c0-3.2 2.4-6.1 6-10.3Z"/><path d="M9 14.2a3.2 3.2 0 0 0 3 2.3"/></svg></div>
       <div style="min-width:0">
         <h1 id="shopName">لمعة</h1>
         <div class="sub">سجل غسيل السيارات</div>
       </div>
+      
       <button type="button" class="icon-btn" id="btnLang" title="تغيير اللغة / Change language" style="width:auto;padding:0 10px;gap:6px;flex:none">
         <span id="langLabel">EN</span>
       </button>
-    </div>
+      <button type="button" class="icon-btn" id="btnLogout" style="width:auto;padding:0 10px;flex:none">خروج</button>
     </div>
     <div class="meta">
       <span id="dateLabel"></span>
@@ -346,17 +406,11 @@ body.has-install-bar { padding-bottom: 80px; }
     </div>
   </header>
 
-  <div class="banner" id="fileBanner" hidden role="status">
-    <p id="bnText"></p>
-    <button type="button" class="btn sm" id="bnCreate">إنشاء ملف البيانات</button>
-    <button type="button" class="btn sm ghost" id="bnOpen">فتح ملف موجود</button>
-    <button type="button" class="btn sm" id="bnPerm">متابعة الحفظ في الملف</button>
-  </div>
-
   <nav class="tabs" aria-label="الأقسام">
     <a href="#today" data-view="today">اليوم</a>
     <a href="#log" data-view="log">السجل</a>
     <a href="#prices" data-view="prices">الأنواع والأسعار</a>
+    <button type="button" class="icon-btn" id="btnCompany" title="بيانات الشركة / Company info" style="width:auto;padding:0 10px;gap:6px;flex:none">بيانات الشركة</button>
   </nav>
 
   <main>
@@ -430,35 +484,80 @@ body.has-install-bar { padding-bottom: 80px; }
     </section>
 
     <!-- PRICES -->
-    <section id="v-prices" aria-label="الأنواع والأسعار" hidden>
-      <div class="card">
-        <div class="card-h"><h2>أنواع السيارات والأسعار</h2><p class="muted">السعر المحدد هنا يظهر تلقائياً عند اختيار النوع في التسجيل.</p></div>
-        <div id="typeRows"></div>
-        <form class="addrow" id="addType" autocomplete="off">
-          <div class="w2"><label for="nKind">نوع المركبة</label><select id="nKind"></select></div>
-<div><label for="nPrice">السعر</label><input id="nPrice" type="number" inputmode="decimal" step="any" min="0" placeholder="0"></div>
-          <button class="btn" type="submit">إضافة</button>
-        </form>
-        <p class="msg" id="typeMsg" role="alert"></p>
-      </div>
-      <div class="card settings">
-        <div><label for="sShop">اسم المغسلة</label><input id="sShop" type="text" maxlength="40"></div>
-        <div><label for="sCur">العملة</label><select id="sCur"></select>
-          <div class="hint">تغيير العملة لا يحوّل الأسعار المسجلة.</div></div>
-      </div>
-      <div class="card" style="margin-top:20px">
-        <div class="card-h"><h2>النسخ الاحتياطي</h2></div>
-        <div class="btnrow">
-          <button type="button" class="btn sm" id="btnBackup">حفظ نسخة احتياطية</button>
-          <button type="button" class="btn sm ghost" id="btnRestore">استعادة نسخة</button>
-          <input type="file" id="restoreInput" accept=".json,application/json" hidden>
-        </div>
-        <div class="hint" id="backupStatus"></div>
-        <div class="confirm" id="restoreBox" hidden></div>
-      </div>
-    </section>
+<section id="v-prices" aria-label="الأنواع والأسعار" hidden>
+  <div class="card">
+    <div class="card-h"><h2>أنواع السيارات والأسعار</h2><p class="muted">السعر المحدد هنا يظهر تلقائياً عند اختيار النوع في التسجيل.</p></div>
+    <div id="typeRows"></div>
+  </div>
+</section>
   </main>
 </div>
+<div id="loginScreen" hidden>
+  <div class="lg-card">
+    <div class="lg-top">
+      <div class="lg-brand">
+        <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c3.6 4.2 6 7.1 6 10.3a6 6 0 0 1-12 0c0-3.2 2.4-6.1 6-10.3Z"/><path d="M9 14.2a3.2 3.2 0 0 0 3 2.3"/></svg></div>
+        <h1 id="lgShop">لمعة</h1>
+      </div>
+      <button type="button" class="icon-btn" id="lgLang" style="width:auto;padding:0 10px;flex:none">EN</button>
+    </div>
+    <form id="lgForm" class="stack" autocomplete="on" novalidate>
+      <div><h2 id="lgTitle">تسجيل الدخول</h2><p class="muted" id="lgSub" style="margin:4px 0 0;font-size:13.5px"></p></div>
+      <div><label for="lgPhone" id="lgPhoneL">رقم الهاتف</label><input id="lgPhone" type="tel" inputmode="tel" autocomplete="username" maxlength="20" dir="ltr"></div>
+      <div><label for="lgPass" id="lgPassL">كلمة المرور</label><input id="lgPass" type="password" autocomplete="current-password" maxlength="40" dir="ltr"></div>
+      <p class="msg" id="lgMsg" role="alert"></p>
+      <button class="btn block" type="submit" id="lgBtn">دخول</button>
+      <p class="lg-hint" id="lgHint"></p>
+    </form>
+  </div>
+</div>
+
+<!-- ===== COMPANY MODAL ===== -->
+<div id="companyModal" hidden role="dialog" aria-modal="true">
+  <div class="cm-box">
+    <h2 id="cmTitle">بيانات الشركة</h2>
+    <div class="cm-grid">
+      <div class="full"><label for="cmName">اسم الشركة</label><input id="cmName" type="text" maxlength="80"></div>
+      <div><label for="cmReg">رقم سجل الشركة</label><input id="cmReg" type="text" maxlength="40" dir="ltr"></div>
+      <div><label for="cmVat">الرقم الضريبي</label><input id="cmVat" type="text" maxlength="40" dir="ltr"></div>
+      <div class="full"><label for="cmAddr">العنوان</label><input id="cmAddr" type="text" maxlength="160"></div>
+    </div>
+    <div class="logo-row">
+      <div>
+        <div class="lbl">لوجو الشركة</div>
+        <label class="logo-drop" id="logoDrop">
+          <input type="file" id="logoInput" accept="image/*">
+          <div class="ph" id="logoPh">اضغط لإضافة اللوجو</div>
+          <img id="logoImg" alt="" hidden>
+          <button type="button" class="rm" id="logoRm" aria-label="حذف">×</button>
+        </label>
+      </div>
+      <div>
+        <div class="lbl">ختم الشركة</div>
+        <label class="logo-drop" id="stampDrop">
+          <input type="file" id="stampInput" accept="image/*">
+          <div class="ph" id="stampPh">اضغط لإضافة الختم</div>
+          <img id="stampImg" alt="" hidden>
+          <button type="button" class="rm" id="stampRm" aria-label="حذف">×</button>
+        </label>
+      </div>
+    </div>
+    <div class="cm-actions">
+      <button type="button" class="btn" id="cmSave">حفظ</button>
+      <button type="button" class="btn ghost" id="cmClose">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="loadingOverlay" aria-hidden="true">
+  <div class="spinner-wrap">
+    <div class="spinner"></div>
+    <div class="spinner-label" id="loadingLabel" hidden></div>
+  </div>
+</div>
+
+
 <div id="toast" role="status" aria-live="polite" hidden></div>
 
 
@@ -490,7 +589,12 @@ var I18N={
   ar:{
     dir:"rtl", lang:"ar", label:"EN", locale:"ar-OM-u-nu-latn",
     shop:"لمعة", sub:"سجل غسيل السيارات",
-    badge:{loading:"جارٍ التحميل", synced:"محفوظ ومتزامن", file:"محفوظ في الملف: ", browser:"محفوظ في المتصفح"},
+    badge:{loading:"جارٍ التحميل", synced:"محفوظ في جوجل درايف", off:"غير متصل"},
+    login:{title:"تسجيل الدخول", sub:"أدخل رقم هاتفك وكلمة المرور", phone:"رقم الهاتف", pass:"كلمة المرور", submit:"دخول", wait:"جارٍ التحقق…",
+      hint:"إذا كان هذا أول تسجيل لرقم الهاتف، يُنشأ حساب جديد بتجربة مجانية لمدة 5 أيام.",
+      errPhone:"اكتب رقم هاتف صحيح.", errPass:"كلمة المرور 4 أحرف على الأقل.", errWrong:"كلمة المرور غير صحيحة.",
+      errNet:"تعذّر الاتصال بالخادم. تحقق من الإنترنت وحاول مرة أخرى.", errApi:"لم يُضبط رابط الخادم في الكود (USER_API / REG_API).",
+      logout:"خروج", welcome:"تم إنشاء حسابك. التجربة المجانية 5 أيام.", left:function(n){return "التجربة المجانية: متبقي "+n+" يوم"}},
     tabs:{today:"اليوم", log:"السجل", prices:"الأنواع والأسعار"},
     stats:{count:"سيارات اليوم", rev:"إيراد اليوم", wash:"قيد الغسيل الآن", month:"إيراد الشهر"},
     form:{title:"تسجيل سيارة", plate:"رقم اللوحة", type:"نوع السيارة", price:"السعر", washType:"نوع الغسيل",
@@ -500,23 +604,27 @@ var I18N={
       addFromPrices:"أضفها من الأنواع والأسعار",
       errPlate:"اكتب رقم اللوحة.", errType:"اختر نوع السيارة.", errPrice:"اكتب سعراً صحيحاً.", saved:"تم تسجيل السيارة",
       pickWash:"— اختر نوع الغسيل —"},
-    today:{title:"سيارات اليوم", hint:"اضغط على الحالة عند تسليم السيارة.", emptyTitle:"لا توجد سيارات اليوم", emptySub:"سجّل أول سيارة من النموذج، وستظهر هنا مع حالتها.", delivered:"تم التسليم", washing:"قيد الغسيل"},
-    log:{title:"سجل السيارات", period:"الفترة", type:"نوع السيارة", search:"بحث", searchPh:"لوحة أو اسم عميل", allTypes:"كل الأنواع", export:"تصدير CSV", count:"عدد السيارات: ", total:"الإجمالي: ", emptyTitle:"لا توجد نتائج", emptySub:"غيّر الفترة أو البحث لعرض سجلات أخرى.",
-      th:{date:"التاريخ", time:"الوقت", plate:"اللوحة", type:"النوع", washType:"نوع الغسيل", customer:"العميل", phone:"الهاتف", price:"السعر", status:"الحالة", notes:"ملاحظات"},
+    today:{title:"سيارات اليوم", hint:"اضغط على الحالة عند تسليم السيارة.", emptyTitle:"لا توجد سيارات اليوم", emptySub:"سجّل أول سيارة من النموذج، وستظهر هنا مع حالتها.", delivered:"تم التسليم", ready:"جاهز", washing:"في الغسيل"},
+       log:{title:"سجل السيارات", period:"الفترة", type:"نوع السيارة", search:"بحث", searchPh:"لوحة أو اسم عميل", allTypes:"كل الأنواع", export:"تصدير CSV", count:"عدد السيارات: ", total:"الإجمالي: ", emptyTitle:"لا توجد نتائج", emptySub:"غيّر الفترة أو البحث لعرض سجلات أخرى.",
+      th:{date:"التاريخ", time:"الوقت", plate:"اللوحة", type:"النوع", washType:"نوع الغسيل", customer:"العميل", phone:"الهاتف", price:"السعر", status:"الحالة", notes:"ملاحظات", invoice:"رقم الفاتورة"},
       periods:{today:"اليوم", week:"آخر 7 أيام", month:"هذا الشهر", all:"الكل"}},
     prices:{title:"أنواع السيارات والأسعار", hint:"السعر المحدد هنا يظهر تلقائياً عند اختيار النوع في التسجيل.", name:"الاسم", price:"السعر", kind:"الشكل", newType:"نوع جديد", newNamePh:"مثال: سيارة صغيرة", add:"إضافة", delete:"حذف", emptyTitle:"لا توجد أنواع بعد", emptySub:"ابدأ بأنواع وأسعار مقترحة وعدّلها كما تريد، أو أضف نوعك الأول من النموذج أدناه.", seed:"إضافة الأنواع المقترحة", added:"تمت إضافة النوع", errName:"اكتب اسم النوع.", errPrice:"اكتب سعراً صحيحاً.", saved:"تم الحفظ",
-      settings:{shop:"اسم المغسلة", cur:"العملة", curHint:"تغيير العملة لا يحوّل الأسعار المسجلة."},
       backup:{title:"النسخ الاحتياطي", save:"حفظ نسخة احتياطية", restore:"استعادة نسخة", saved:"تم حفظ النسخة: ", downloaded:"تم تنزيل النسخة: ", failed:"تعذّر حفظ النسخة.", restored:"تمت الاستعادة.", invalid:"الملف غير صالح. اختر ملف نسخة احتياطية للمغسلة.",
         confirmAr:function(nw,nt,when){return 'سيتم استبدال البيانات الحالية ('+nw+' سيارة) ببيانات النسخة ('+nt.washes+' سيارة، '+nt.types+' نوع)، تاريخ الحفظ: '+esc(when)+'.'},
         go:"استعادة", no:"إلغاء"}},
     washTypes:["غسيل داخلي","غسيل خارجي","غسيل الكراسي والفرش","غسيل شامل","غسيل زوالي","غسيل كنبات","غسيل بطانيات","غسيل وسائد","غسيل مرتبة","غسيل اخرى"],
     kinds:{sedan:"سيدان",suv:"دفع رباعي",pickup:"بيك أب",van:"فان / حافلة",bike:"دراجة نارية",truck:"شاحنة",caravan:"كرفان",cart:"عربة",other:"أخرى"},
-    common:{toastSaveErr:"تعذّر الحفظ. قد لا تملك صلاحية التعديل على هذه الصفحة.", toastLoadErr:"تعذّر تحميل البيانات المحفوظة.", deleted:"تم الحذف", confirmDel:"تأكيد الحذف", deleteLabel:"حذف", loading:"جارٍ التحميل…"}
+    common:{toastSaveErr:"تعذّر الحفظ. تحقق من الاتصال بالإنترنت.", toastLoadErr:"تعذّر تحميل البيانات المحفوظة.", deleted:"تم الحذف", confirmDel:"تأكيد الحذف", deleteLabel:"حذف", loading:"جارٍ التحميل…", loadFail:"تعذّر تحميل السجلات", retry:"إعادة المحاولة"}
   },
   en:{
     dir:"ltr", lang:"en", label:"ع", locale:"en-GB",
     shop:"Lamaa", sub:"Car Wash Ledger",
-    badge:{loading:"Loading", synced:"Saved & Synced", file:"Saved to file: ", browser:"Saved in browser"},
+    badge:{loading:"Loading", synced:"Saved to Google Drive", off:"Offline"},
+    login:{title:"Sign in", sub:"Enter your phone number and password", phone:"Phone number", pass:"Password", submit:"Sign in", wait:"Checking…",
+      hint:"If this phone number is new, an account is created with a 5-day free trial.",
+      errPhone:"Enter a valid phone number.", errPass:"Password must be at least 4 characters.", errWrong:"Wrong password.",
+      errNet:"Could not reach the server. Check your internet and try again.", errApi:"Server URL is not set in the code (USER_API / REG_API).",
+      logout:"Log out", welcome:"Account created. 5-day free trial.", left:function(n){return "Free trial: "+n+" day(s) left"}},
     tabs:{today:"Today", log:"Log", prices:"Types & Prices"},
     stats:{count:"Cars Today", rev:"Today Revenue", wash:"Currently Washing", month:"Month Revenue"},
     form:{title:"Register Car", plate:"Plate Number", type:"Car Type", price:"Price", washType:"Wash Type",
@@ -527,18 +635,17 @@ var I18N={
       addFromPrices:"Add them from Types & Prices",
       errPlate:"Enter the plate number.", errType:"Select the car type.", errPrice:"Enter a valid price.", saved:"Car registered",
       pickWash:"— Pick a wash type —"},
-    today:{title:"Today's Cars", hint:"Tap the status when the car is delivered.", emptyTitle:"No cars today", emptySub:"Register the first car from the form; it will appear here with its status.", delivered:"Delivered", washing:"Washing"},
-    log:{title:"Cars Log", period:"Period", type:"Car Type", search:"Search", searchPh:"Plate or customer name", allTypes:"All types", export:"Export CSV", count:"Cars: ", total:"Total: ", emptyTitle:"No results", emptySub:"Change the period or search to see other records.",
-      th:{date:"Date", time:"Time", plate:"Plate", type:"Type", washType:"Wash Type", customer:"Customer", phone:"Phone", price:"Price", status:"Status", notes:"Notes"},
+    today:{title:"Today's Cars", hint:"Tap the status when the car is delivered.", emptyTitle:"No cars today", emptySub:"Register the first car from the form; it will appear here with its status.", delivered:"Delivered", ready:"Ready", washing:"Washing"},
+       log:{title:"Cars Log", period:"Period", type:"Car Type", search:"Search", searchPh:"Plate or customer name", allTypes:"All types", export:"Export CSV", count:"Cars: ", total:"Total: ", emptyTitle:"No results", emptySub:"Change the period or search to see other records.",
+      th:{date:"Date", time:"Time", plate:"Plate", type:"Type", washType:"Wash Type", customer:"Customer", phone:"Phone", price:"Price", status:"Status", notes:"Notes", invoice:"Invoice No."},
       periods:{today:"Today", week:"Last 7 days", month:"This month", all:"All"}},
     prices:{title:"Car Types & Prices", hint:"The price set here is auto-filled when selecting the type in the registration form.", name:"Name", price:"Price", kind:"Shape", newType:"New type", newNamePh:"e.g. Small car", add:"Add", delete:"Delete", emptyTitle:"No types yet", emptySub:"Start with suggested types and prices, edit them as you wish, or add your first type from the form below.", seed:"Add suggested types", added:"Type added", errName:"Enter the type name.", errPrice:"Enter a valid price.", saved:"Saved",
-      settings:{shop:"Shop Name", cur:"Currency", curHint:"Changing the currency does not convert saved prices."},
       backup:{title:"Backup", save:"Save backup", restore:"Restore backup", saved:"Saved: ", downloaded:"Downloaded: ", failed:"Could not save the backup.", restored:"Restored.", invalid:"Invalid file. Pick a car-wash backup file.",
         confirmAr:function(nw,nt,when){return 'Current data ('+nw+' cars) will be replaced with the backup ('+nt.washes+' cars, '+nt.types+' types), saved: '+esc(when)+'.'},
         go:"Restore", no:"Cancel"}},
     washTypes:["Interior Wash","Exterior Wash","Seats & Upholstery","Full Wash","Rugs Wash","Sofas Wash","Blankets Wash","Pillows Wash","Mattress Wash","Other"],
     kinds:{sedan:"Sedan",suv:"SUV",pickup:"Pickup",van:"Van / Bus",bike:"Motorcycle",truck:"Truck",caravan:"Caravan",cart:"Cart",other:"Other"},
-    common:{toastSaveErr:"Could not save. You may not have permission to edit this page.", toastLoadErr:"Could not load saved data.", deleted:"Deleted", confirmDel:"Confirm delete", deleteLabel:"Delete", loading:"Loading…"}
+    common:{toastSaveErr:"Could not save. Check your internet connection.", toastLoadErr:"Could not load saved data.", deleted:"Deleted", confirmDel:"Confirm delete", deleteLabel:"Delete", loading:"Loading…", loadFail:"Could not load records", retry:"Retry"}
   }
 };
 function L(){return I18N[state.settings.lang||"ar"]}
@@ -583,33 +690,28 @@ function wName(n){
 var TRASH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg><span class="sr">حذف</span>';
 var CURRENCIES=[["ر.ع.",3,"ريال عُماني","Omani Rial"],["ر.س",2,"ريال سعودي","Saudi Riyal"],["د.إ",2,"درهم إماراتي","UAE Dirham"],["د.ك",3,"دينار كويتي","Kuwaiti Dinar"],["ر.ق",2,"ريال قطري","Qatari Riyal"],["د.ب",3,"دينار بحريني","Bahraini Dinar"],["ج.م",2,"جنيه مصري","Egyptian Pound"],["$",2,"دولار أمريكي","US Dollar"]];
 
-function defaultTypes(){
-  var t=Date.now();
-  var base={sedan:["سيدان",2,"sedan"],suv:["سيارة دفع رباعي",3,"suv"],pickup:["بيك أب",3,"pickup"],van:["فان / حافلة صغيرة",4,"van"],bike:["دراجة نارية",1,"bike"],truck:["شاحنة",5,"truck"],caravan:["كرفان",6,"caravan"],cart:["عربة",2,"cart"],other:["أخرى",2,"other"]};
-  return ["sedan","suv","pickup","van","bike","truck","caravan","cart","other"].map(function(k,i){
-    var r=base[k];
-    return {id:"t_"+(t+i).toString(36),name:r[0],price:r[1],kind:r[2],sort:t+i};
+/* الأنواع ثابتة داخل الصفحة نفسها (لا تُحفظ في أي ذاكرة). المحفوظ فقط هو تعديل السعر لكل مستخدم. */
+var BASE_TYPES=[["sedan",2],["suv",3],["pickup",3],["van",4],["bike",1],["truck",5],["caravan",6],["cart",2],["other",2]];
+function buildTypes(){
+  return BASE_TYPES.map(function(r,i){
+    var k=r[0],p=state.prices[k];
+    return {id:"t_"+k,name:DEFAULT_NAMES.ar[k],kind:k,price:(typeof p==="number"&&p>=0)?p:r[1],sort:i};
   });
 }
 
 /* ---------- state ---------- */
-var state={types:[],washes:[],settings:{shop:"لمعة",cur:"ر.ع.",dec:3,lang:"ar"},mode:"loading",ready:false,sel:null,view:"today",washSel:[]};
-var db=null, dl=null, LS="lamaa-carwash-v1";
+/* رابطا Google Apps Script (Web App) - الصق هنا الرابطين بعد النشر */
+var USER_API="https://script.google.com/macros/s/AKfycbwkRw_ahUv0crSLMHmczactY238gO2z3Oau_uAfWQBsyvtoakAipYLn8MwA6G13JU2h/exec";   /* سكربت شيت CarWashUser */
+var REG_API="https://script.google.com/macros/s/AKfycbznzC06UKs04onh9psKL3othF3ZSN0rQuLU9R30DmZPgaiL4OjrGylyHZRfanT3ZT-b/exec";     /* سكربت شيت CarWashReg  */
 
-function lsRead(){try{return JSON.parse(localStorage.getItem(LS)||"null")}catch(e){return null}}
-function idbOpen(){return new Promise(function(res,rej){var r=indexedDB.open("lamaa-carwash",1);r.onupgradeneeded=function(){r.result.createObjectStore("data")};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
-function idbRead(){return idbOpen().then(function(d){return new Promise(function(res){var q=d.transaction("data").objectStore("data").get("all");q.onsuccess=function(){res(q.result||null)};q.onerror=function(){res(null)}})}).catch(function(){return null})}
-function idbWrite(v){return idbOpen().then(function(d){d.transaction("data","readwrite").objectStore("data").put(v,"all")}).catch(function(){})}
-function lsWrite(){
-  var snap={types:state.types,washes:state.washes,settings:state.settings,savedAt:Date.now()};
-  try{localStorage.setItem(LS,JSON.stringify(snap))}catch(e){}
-  idbWrite(JSON.parse(JSON.stringify(snap)));
-  if(fh)writeSoon();
-}
-function sortAll(){
-  state.types.sort(function(a,b){return (a.sort||0)-(b.sort||0)});
-  state.washes.sort(function(a,b){return (b.ts||0)-(a.ts||0)});
-}
+var state={types:[],washes:[],settings:{shop:"لمعة",cur:"ر.ع.",dec:3,lang:"ar"},mode:"loading",ready:false,loadErr:false,sel:null,view:"today",washSel:[],user:null,prices:{}};
+var SK="lamaa-settings-v2", SESS="lamaa-session-v1";
+
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||"null")}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function lsDel(k){try{localStorage.removeItem(k)}catch(e){}}
+function pricesKey(){return "lamaa-prices-"+(state.user?state.user.id:"x")}
+function sortAll(){state.washes.sort(function(a,b){return (b.ts||0)-(a.ts||0)})}
 
 /* ---------- helpers ---------- */
 function pad(n){return n<10?"0"+n:""+n}
@@ -627,6 +729,51 @@ function inPeriod(w,p){
   if(p==="month"){var a=new Date(w.ts),b=new Date(now);return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()}
   return true;
 }
+
+///ايقونة اللودنج
+var _loadingCount = 0;
+
+function showLoading(label){
+  _loadingCount++;
+  var o = $("#loadingOverlay");
+  if(!o) return;
+
+  // النص
+  var l = $("#loadingLabel");
+  if(label){
+    l.textContent = label;
+    l.hidden = false;
+  } else {
+    l.hidden = true;
+  }
+
+  // إظهار
+  o.classList.add("show");
+  o.setAttribute("aria-hidden","false");
+
+  // مؤقت احتياطي: أخفِ بعد 30 ثانية لو حصل تعليق
+  clearTimeout(o._safety);
+  o._safety = setTimeout(function(){
+    _loadingCount = 0;
+    o.classList.remove("show");
+    o.setAttribute("aria-hidden","true");
+  }, 30000);
+}
+
+function hideLoading(){
+  _loadingCount = Math.max(0, _loadingCount - 1);
+  if(_loadingCount > 0) return;   // لا تخفِ إذا كانت هناك عمليات أخرى جارية
+
+  var o = $("#loadingOverlay");
+  if(!o) return;
+
+  // ألغِ المؤقت الاحتياطي لأننا أخفينا يدوياً
+  clearTimeout(o._safety);
+
+  o.classList.remove("show");
+  o.setAttribute("aria-hidden","true");
+}
+
 function toast(m){
   var t=$("#toast");t.textContent=m;t.hidden=false;
   clearTimeout(toast.h);toast.h=setTimeout(function(){t.hidden=true},2600);
@@ -634,47 +781,115 @@ function toast(m){
 function uid(p){return p+"_"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 
 /* ---------- persistence ---------- */
-function clean(o){return JSON.parse(JSON.stringify(o))}
-async function put(coll,obj){
-  var body=clean(obj);
-  if(db){await db.doc(coll+"/"+obj.id).set(body);return}
-  var arr=state[coll],i=arr.findIndex(function(x){return x.id===obj.id});
-  if(i>=0)arr[i]=body;else arr.push(body);
-  sortAll();lsWrite();renderAll();
-}
-async function patch(coll,id,f){
-  if(db){await db.doc(coll+"/"+id).update(clean(f));return}
-  var o=state[coll].find(function(x){return x.id===id});
-  if(o)Object.assign(o,f);
-  lsWrite();renderAll();
-}
-async function drop(coll,id){
-  if(db){await db.doc(coll+"/"+id).delete();return}
-  state[coll]=state[coll].filter(function(x){return x.id!==id});
-  lsWrite();renderAll();
-}
-async function putSettings(){
-  if(db){await db.doc("settings/main").set(clean(state.settings));return}
-  lsWrite();renderAll();
-}
+async function putSettings(){lsSet(SK,state.settings);renderAll()}
 async function run(fn,ok){
   try{await fn();if(ok)toast(ok);return true}
   catch(e){toast(L().common.toastSaveErr);return false}
 }
 
+/* ---------- الاتصال بجوجل درايف (Apps Script) ---------- */
+async function api(url,body){
+  if(!url||url.indexOf("https://")!==0)throw new Error("noapi");
+  var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort()},25000);
+  try{
+    var r=await fetch(url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body),signal:ctl.signal});
+    return await r.json();
+  }finally{clearTimeout(tm)}
+}
+function authBody(){return {id:state.user.id,phone:state.user.phone,pass:state.user.pass}}
+
+var ST_AR={wash:"في الغسيل",ready:"جاهز",done:"تم التسليم"};
+function stFromSheet(s){s=String(s||"").trim();return s==="جاهز"?"ready":(s==="تم التسليم"?"done":"wash")}
+function stLabel(s){var t=L().today;return s==="done"?t.delivered:(s==="ready"?t.ready:t.washing)}
+function stCls(s){return s==="done"?"done":(s==="ready"?"ready":"wash")}
+function stNext(s){return s==="wash"?"ready":(s==="ready"?"done":"wash")}
+function fmtDT(ts){var d=new Date(ts);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+" "+pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds())}
+function parseDT(s){
+  var m=/^(\d{4})-(\d\d)-(\d\d)[ T](\d\d):(\d\d)(?::(\d\d))?/.exec(String(s||""));
+  if(m)return new Date(+m[1],m[2]-1,+m[3],+m[4],+m[5],+(m[6]||0)).getTime();
+  var p=Date.parse(s);return isNaN(p)?Date.now():p;
+}
+function kindFromName(n){
+  n=String(n||"").trim();
+  for(var k in DEFAULT_NAMES.ar){if(DEFAULT_NAMES.ar[k]===n||DEFAULT_NAMES.en[k]===n||I18N.ar.kinds[k]===n||I18N.en.kinds[k]===n)return k}
+  return "other";
+}
+function rowToWash(r){
+  var ts=parseDT(r.date),kind=kindFromName(r.kind),no=String(r.no==null?"":r.no);
+  return {id:r.date+"|"+no,plate:no,kind:kind,typeId:"t_"+kind,typeName:DEFAULT_NAMES.ar[kind],price:+r.price||0,
+    status:stFromSheet(r.state),customer:String(r.customer||""),phone:String(r.cusPhone||""),notes:String(r.notes||""),
+    ts:ts,day:dayKey(ts),dateStr:String(r.date),
+    invoice:String(r.invoice||""),                    // ← جديد
+    washTypes:String(r.type||"").split("|").map(function(x){return x.trim()}).filter(Boolean)};
+}
+function authFail(r){
+  if(r&&r.code==="EXPIRED"){showExpired();return true}
+  if(r&&r.code==="AUTH"){doLogout();return true}
+  return false;
+}
+var lastLoad=0;
+async function loadWashes(){
+  state.loadErr=false;
+  showLoading(L().common.loading || "جارٍ التحميل…");
+  try{
+    var r=await api(REG_API,{action:"list",auth:authBody()});
+    if(!r||!r.ok){if(authFail(r))return;throw new Error("list")}
+    state.washes=(r.rows||[]).map(rowToWash);sortAll();state.mode="db";lastLoad=Date.now();
+  }catch(e){state.loadErr=true;state.mode="off"}
+  hideLoading();
+  state.ready=true;renderAll();
+}
+async function cloudAdd(w){
+  var r=await api(REG_API,{action:"add",auth:authBody(),row:{
+    no:w.plate,kind:DEFAULT_NAMES.ar[w.kind],price:w.price,type:w.washTypes.join(" | "),state:ST_AR.wash,
+    customer:w.customer,cusPhone:w.phone,date:w.dateStr,notes:w.notes}});
+  if(!r||!r.ok){authFail(r);throw new Error("add")}
+  // استخدم رقم الفاتورة العائد من الخادم
+  if(r.invoice) w.invoice = r.invoice;
+  state.washes.push(w);sortAll();state.mode="db";renderAll();
+}
+async function cloudState(w,nxt){
+  var old=w.status;w.status=nxt;renderAll();
+  showLoading();
+  try{
+    var r=await api(REG_API,{action:"setState",auth:authBody(),date:w.dateStr,no:w.plate,state:ST_AR[nxt]});
+    if(!r||!r.ok){authFail(r);throw new Error("st")}
+  }catch(e){w.status=old;renderAll();toast(L().common.toastSaveErr)}
+  hideLoading();
+}
+async function cloudDel(id){
+  var w=state.washes.find(function(x){return x.id===id});if(!w)return;
+  showLoading();
+  try{
+    var r=await api(REG_API,{action:"delete",auth:authBody(),date:w.dateStr,no:w.plate});
+    if(!r||!r.ok){authFail(r);throw new Error("del")}
+    state.washes=state.washes.filter(function(x){return x.id!==id});renderAll();
+  } finally { hideLoading(); }
+}
 /* ---------- render ---------- */
 function typeById(id){return state.types.find(function(t){return t.id===id})}
 
 function renderHeader(){
   var l=L();
-  $("#shopName").textContent=state.settings.shop||l.shop;
+  var c = loadCompany();
+  var shopName = c.name || state.settings.shop || l.shop;
+  $("#shopName").textContent = shopName;
+  
+  // اللوجو في الهيدر
+  var mark = document.querySelector(".brand .mark");
+  if(c.logo){
+    mark.innerHTML = '<img src="'+esc(c.logo)+'" alt="" style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#fff">';
+  } else {
+    mark.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c3.6 4.2 6 7.1 6 10.3a6 6 0 0 1-12 0c0-3.2 2.4-6.1 6-10.3Z"/><path d="M9 14.2a3.2 3.2 0 0 0 3 2.3"/></svg>';
+  }
+  
   var s;
   try{s=new Date().toLocaleDateString(l.locale,{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
   catch(e){s=dateFmt(Date.now())}
   $("#dateLabel").textContent=s;
   var b=$("#modeBadge");
   if(state.mode==="db"){b.className="badge ok";b.lastChild.textContent=l.badge.synced}
-  else if(state.mode==="local"){b.className=fh?"badge ok":"badge warn";b.lastChild.textContent=fh?(l.badge.file+fh.name):l.badge.browser}
+  else if(state.mode==="off"){b.className="badge warn";b.lastChild.textContent=l.badge.off}
   else{b.className="badge";b.lastChild.textContent=l.badge.loading}
   $("#priceCur").textContent=state.settings.cur;
   $("#langLabel").textContent=l.label;
@@ -764,13 +979,19 @@ function washRow(w){
     (pills.length?'<div class="wpills">'+pills.join("")+'</div>':'')+
     (extra.length?'<div class="muted ws">'+extra.join(" · ")+'</div>':'')+'</div>'+
     '<div class="wprice">'+money(w.price)+'</div>'+
-    '<div class="wact"><button type="button" class="st '+(w.status==="done"?"done":"wash")+'" data-toggle="'+esc(w.id)+'" title="'+l.today.hint+'">'+(w.status==="done"?l.today.delivered:l.today.washing)+'</button>'+
+    '<div class="wact"><button type="button" class="st '+stCls(w.status)+'" data-s="'+w.status+'" data-toggle="'+esc(w.id)+'" title="'+l.today.hint+'">'+stLabel(w.status)+'</button>'+
     invBtn(w)+'<button type="button" class="icon-btn" data-coll="washes" data-del="'+esc(w.id)+'">'+TRASH+'</button></div></div>';
 }
 
+function stateMsg(){
+  var l=L();
+  if(!state.ready)return '<div class="empty">'+l.common.loading+'</div>';
+  if(state.loadErr)return '<div class="empty"><b>'+l.common.loadFail+'</b><button type="button" class="btn sm" data-retry="1">'+l.common.retry+'</button></div>';
+  return "";
+}
 function renderToday(){
-  var box=$("#todayList"),l=L();
-  if(!state.ready){box.innerHTML='<div class="empty">'+l.common.loading+'</div>';return}
+  var box=$("#todayList"),l=L(),sm=stateMsg();
+  if(sm){box.innerHTML=sm;return}
   var today=dayKey(Date.now());
   var list=state.washes.filter(function(w){return w.day===today});
   box.innerHTML=list.length?list.map(washRow).join(""):
@@ -789,7 +1010,7 @@ function filteredWashes(){
     if(!inPeriod(w,p))return false;
     if(ty!=="all"&&w.typeId!==ty)return false;
     if(q){
-      var hay=nd((w.plate||"")+" "+(w.customer||"")+" "+(w.phone||"")).toLowerCase();
+      var hay=nd((w.plate||"")+" "+(w.customer||"")+" "+(w.phone||"")+" "+(w.invoice||"")).toLowerCase();
       var ph=nd(w.phone||"").replace(/\D/g,"");
       if(hay.indexOf(q)<0&&!(qd&&ph.indexOf(qd)>=0))return false;
     }
@@ -800,22 +1021,24 @@ function renderLog(){
   var l=L(),th=l.log.th;
   var list=filteredWashes(),total=0;
   list.forEach(function(w){total+=+w.price||0});
-  $("#btnExport").hidden=!(dl&&list.length);
+  $("#btnExport").hidden=!list.length;
   $("#logSum").innerHTML='<span>'+l.log.count+'<b>'+list.length+'</b></span><span>'+l.log.total+'<b>'+num(total)+'</b> <span class="cur">'+esc(state.settings.cur)+'</span></span>';
   var body=$("#logBody");
-  if(!state.ready){body.innerHTML='<div class="empty">'+l.common.loading+'</div>';return}
+  var sm=stateMsg();
+  if(sm){body.innerHTML=sm;return}
   if(!list.length){body.innerHTML='<div class="empty"><b>'+l.log.emptyTitle+'</b>'+l.log.emptySub+'</div>';return}
-  body.innerHTML='<div class="tablewrap"><table><thead><tr>'+
-    '<th>'+th.date+'</th><th>'+th.plate+'</th><th>'+th.type+'</th><th>'+th.washType+'</th><th>'+th.customer+'</th><th>'+th.price+'</th><th>'+th.status+'</th><th><span class="sr">'+l.prices.delete+'</span></th></tr></thead><tbody>'+
-    list.map(function(w){
+body.innerHTML='<div class="tablewrap"><table><thead><tr>'+
+    '<th>'+th.date+'</th><th>'+th.invoice+'</th><th>'+th.plate+'</th><th>'+th.type+'</th><th>'+th.washType+'</th><th>'+th.customer+'</th><th>'+th.price+'</th><th>'+th.status+'</th><th><span class="sr">'+l.prices.delete+'</span></th></tr></thead><tbody>'+
+       list.map(function(w){
       var wt=Array.isArray(w.washTypes)?w.washTypes.map(wName).join(", "):wName(w.washType||"");
       return '<tr><td class="d">'+dateFmt(w.ts)+' <span class="muted">'+timeFmt(w.ts)+'</span></td>'+
+        '<td class="d">'+esc(w.invoice||"—")+'</td>'+
         '<td><span class="plate"><bdi>'+esc(w.plate)+'</bdi></span></td>'+
         '<td>'+esc(tName({kind:w.kind,name:w.typeName}))+'</td>'+
         '<td>'+esc(wt)+'</td>'+
         '<td>'+esc(w.customer||"")+(w.phone?' <bdi class="muted">'+esc(w.phone)+'</bdi>':'')+'</td>'+
         '<td class="n">'+money(w.price)+'</td>'+
-        '<td><button type="button" class="st '+(w.status==="done"?"done":"wash")+'" data-toggle="'+esc(w.id)+'">'+(w.status==="done"?l.today.delivered:l.today.washing)+'</button></td>'+
+        '<td><button type="button" class="st '+stCls(w.status)+'" data-s="'+w.status+'" data-toggle="'+esc(w.id)+'">'+stLabel(w.status)+'</button></td>'+
        '<td style="white-space:nowrap">'+invBtn(w)+' <button type="button" class="icon-btn" data-coll="washes" data-del="'+esc(w.id)+'">'+TRASH+'</button></td></tr>';
     }).join("")+'</tbody></table></div>';
 }
@@ -827,26 +1050,13 @@ function kindOptions(sel){
 function renderPrices(){
   var box=$("#typeRows"),l=L();
   if(box.contains(document.activeElement)&&document.activeElement!==box)return;
-  if(!state.ready){box.innerHTML='<div class="empty">'+l.common.loading+'</div>';return}
-  if(!state.types.length){
-    box.innerHTML='<div class="empty"><b>'+l.prices.emptyTitle+'</b>'+l.prices.emptySub+'<br><button type="button" class="btn sm" id="seedBtn">'+l.prices.seed+'</button></div>';
-    return;
-  }
   box.innerHTML=state.types.map(function(t){
     return '<div class="prow" data-id="'+esc(t.id)+'"><div class="ic">'+icon(t.kind)+'</div>'+
-      '<div class="kd"><label class="sr" for="kd-'+esc(t.id)+'">'+l.prices.kind+'</label><select id="kd-'+esc(t.id)+'" data-f="kind">'+kindOptions(t.kind)+'</select></div>'+
-      '<div class="pr"><label class="sr" for="pr-'+esc(t.id)+'">'+l.prices.price+'</label><div class="with-cur"><input id="pr-'+esc(t.id)+'" data-f="price" type="number" inputmode="decimal" step="any" min="0" value="'+esc(+(+t.price).toFixed(state.settings.dec))+'"><span class="cur">'+esc(state.settings.cur)+'</span></div></div>'+
-      '<button type="button" class="icon-btn" data-coll="types" data-del="'+esc(t.id)+'">'+TRASH+'</button></div>';
+      '<div class="nm"><b>'+esc(tName(t))+'</b></div>'+
+      '<div class="pr"><label class="sr" for="pr-'+esc(t.id)+'">'+l.prices.price+'</label><div class="with-cur"><input id="pr-'+esc(t.id)+'" data-f="price" type="number" inputmode="decimal" step="any" min="0" value="'+esc(+(+t.price).toFixed(state.settings.dec))+'"><span class="cur">'+esc(state.settings.cur)+'</span></div></div></div>';
   }).join("");
 }
-function renderSettings(){
-  var a=document.activeElement;
-  if(a!==$("#sShop"))$("#sShop").value=state.settings.shop||"";
-  var sel=$("#sCur");
-  var curList=CURRENCIES.map(function(c){return [c[0],c[1],state.settings.lang==="en"?c[3]:c[2]]});
-  sel.innerHTML=curList.map(function(c){return '<option value="'+esc(c[0])+'">'+esc(c[2]+" ("+c[0]+")")+'</option>'}).join("");
-  sel.value=state.settings.cur;
-}
+
 
 /* ---------- language applier ---------- */
 function applyLang(){
@@ -895,35 +1105,19 @@ var tP=document.querySelector("#v-today div.card .card-h p"); if(tP)tP.textConte
 
   var pH=document.querySelector("#v-prices .card:first-child .card-h h2"); if(pH)pH.textContent=l.prices.title;
   var pP=document.querySelector("#v-prices .card:first-child .card-h p"); if(pP)pP.textContent=l.prices.hint;
-  var an=document.querySelector('#addType label[for="nName"]'); if(an)an.textContent=l.prices.newType;
-  var np=$("#nName"); if(np)np.placeholder=l.prices.newNamePh;
-  var ap=document.querySelector('#addType label[for="nPrice"]'); if(ap)ap.textContent=l.prices.price;
-  var ak=document.querySelector('#addType label[for="nKind"]'); if(ak)ak.textContent=l.prices.kind;
-  var addBtn=document.querySelector('#addType button[type="submit"]'); if(addBtn)addBtn.textContent=l.prices.add;
-  $("#nKind").innerHTML=kindOptions($("#nKind").value||"sedan");
 
-  var ss=$("#sShop"); if(ss&&ss.previousElementSibling&&ss.previousElementSibling.tagName==="LABEL")ss.previousElementSibling.textContent=l.prices.settings.shop;
-  var sc=$("#sCur"); if(sc&&sc.previousElementSibling&&sc.previousElementSibling.tagName==="LABEL")sc.previousElementSibling.textContent=l.prices.settings.cur;
-  if(sc){var hint=sc.parentElement.querySelector(".hint"); if(hint)hint.textContent=l.prices.settings.curHint}
-
-  var cards=document.querySelectorAll("#v-prices .card");
-  var bcard=cards[cards.length-1];
-  if(bcard){
-    var bh=bcard.querySelector("h2"); if(bh)bh.textContent=l.prices.backup.title;
-    var b1=$("#btnBackup"); if(b1)b1.textContent=l.prices.backup.save;
-    var b2=$("#btnRestore"); if(b2)b2.textContent=l.prices.backup.restore;
-  }
-
-  document.querySelectorAll(".st").forEach(function(b){
-    var isDone=b.classList.contains("done");
-    b.textContent=isDone?l.today.delivered:l.today.washing;
-  });
-
+  document.querySelectorAll(".st[data-s]").forEach(function(b){b.textContent=stLabel(b.getAttribute("data-s"))});
+  var lo=$("#btnLogout"); if(lo)lo.textContent=l.login.logout;
+  applyLoginLang();
+  var bc = document.getElementById("btnCompany");
+if(bc) bc.textContent = (l.lang==="en") ? "Company" : "بيانات الشركة";
+var ct = document.getElementById("cmTitle");
+if(ct) ct.textContent = (l.lang==="en") ? "Company Info" : "بيانات الشركة";
   renderWashSelect();
 }
 
 function renderAll(){
-  renderHeader();renderStats();renderChips();renderToday();renderLogFilters();renderLog();renderPrices();renderSettings();
+  renderHeader();renderStats();renderChips();renderToday();renderLogFilters();renderLog();renderPrices();
   if(state.ready)renderHint();
   applyLang();
 }
@@ -941,11 +1135,14 @@ function setView(v){
 window.addEventListener("hashchange",function(){setView(location.hash.slice(1))});
 
 /* ---------- language toggle ---------- */
-$("#btnLang").addEventListener("click",function(){
+function toggleLang(){
   state.settings.lang=(state.settings.lang==="en")?"ar":"en";
+  lsSet(SK,state.settings);
   renderAll();
-  run(putSettings);
-});
+}
+$("#btnLang").addEventListener("click",toggleLang);
+$("#lgLang").addEventListener("click",toggleLang);
+$("#btnLogout").addEventListener("click",function(){doLogout()});
 
 /* ---------- events ---------- */
 document.addEventListener("click",function(e){
@@ -961,7 +1158,7 @@ document.addEventListener("click",function(e){
   var tg=e.target.closest("[data-toggle]");
   if(tg){
     var w=state.washes.find(function(x){return x.id===tg.dataset.toggle});
-    if(w)run(function(){return patch("washes",w.id,{status:w.status==="done"?"wash":"done"})});
+    if(w)cloudState(w,stNext(w.status));
     return;
   }
 
@@ -970,7 +1167,7 @@ document.addEventListener("click",function(e){
   var del=e.target.closest("[data-del]");
   if(del){
     var l=L();
-    if(del.dataset.armed){run(function(){return drop(del.dataset.coll,del.dataset.del)},l.common.deleted)}
+    if(del.dataset.armed){run(function(){return cloudDel(del.dataset.del)},l.common.deleted)}
     else{
       del.dataset.armed="1";del.classList.add("armed");del.textContent=l.common.confirmDel;
       setTimeout(function(){if(del.isConnected){delete del.dataset.armed;del.classList.remove("armed");del.innerHTML=TRASH}},3000);
@@ -978,9 +1175,7 @@ document.addEventListener("click",function(e){
     return;
   }
 
-  if(e.target.id==="seedBtn"){
-    run(async function(){for(var t of defaultTypes())await put("types",t)},L().prices.seed);
-  }
+  if(e.target.closest("[data-retry]")){loadWashes();return}
 });
 
 $("#washPick").addEventListener("change",function(){addWash(this.value)});
@@ -995,10 +1190,14 @@ $("#form").addEventListener("submit",function(e){
   if(!plate){msg.textContent=l.form.errPlate;$("#plate").focus();return}
   if(!t){msg.textContent=l.form.errType;return}
   if(isNaN(price)||price<0){msg.textContent=l.form.errPrice;$("#price").focus();return}
-  var now=Date.now();
-  var w={id:uid("w"),plate:plate,customer:$("#customer").value.trim(),phone:$("#phone").value.trim(),notes:$("#notes").value.trim(),
-    typeId:t.id,typeName:t.name,kind:t.kind,price:price,status:"wash",ts:now,day:dayKey(now),washTypes:washTypes};
-  run(function(){return put("washes",w)},l.form.saved).then(function(ok){
+  var ds=fmtDT(Date.now()),now=parseDT(ds),sbtn=$("#form button[type=submit]");
+  var w={id:ds+"|"+plate,plate:plate,customer:$("#customer").value.trim(),phone:$("#phone").value.trim(),notes:$("#notes").value.trim(),
+    typeId:t.id,typeName:t.name,kind:t.kind,price:price,status:"wash",ts:now,day:dayKey(now),dateStr:ds,washTypes:washTypes};
+  sbtn.disabled=true;
+  showLoading(l.form.saved || "جارٍ الحفظ…");
+  run(function(){return cloudAdd(w)},l.form.saved).then(function(ok){
+    hideLoading();
+    sbtn.disabled=false;
     if(ok){
       ["#plate","#customer","#phone","#notes"].forEach(function(s){$(s).value=""});
       state.washSel=[];renderWashSelect();syncPrice();$("#plate").focus();
@@ -1010,235 +1209,37 @@ $("#form").addEventListener("submit",function(e){
 $("#fSearch").addEventListener("input",renderLog);
 
 $("#btnExport").addEventListener("click",async function(){
-  if(!dl)return;
   var l=L(),th=l.log.th;
   var q=function(v){return '"'+String(v==null?"":v).replace(/"/g,'""')+'"'};
   var rows=[[th.date,th.time,th.plate,th.type,th.washType,th.customer,th.phone,th.price+" ("+state.settings.cur+")",th.status,th.notes]];
   filteredWashes().forEach(function(w){
     var wt=Array.isArray(w.washTypes)?w.washTypes.map(wName).join(" / "):wName(w.washType||"");
-    rows.push([dateFmt(w.ts),timeFmt(w.ts),w.plate,tName({kind:w.kind,name:w.typeName}),wt,w.customer,w.phone,num(w.price),w.status==="done"?l.today.delivered:l.today.washing,w.notes]);
+    rows.push([dateFmt(w.ts),timeFmt(w.ts),w.plate,tName({kind:w.kind,name:w.typeName}),wt,w.customer,w.phone,num(w.price),stLabel(w.status),w.notes]);
   });
   var csv="\uFEFF"+rows.map(function(r){return r.map(q).join(",")}).join("\r\n");
-  try{await dl.save({filename:"carwash-"+dayKey(Date.now())+".csv",data:csv});toast(l.prices.backup.saved)}catch(err){if(!err||err.code!=="declined")toast(l.prices.backup.failed)}
+  try{
+    var a=document.createElement("a"),u=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+    a.href=u;a.download="carwash-"+dayKey(Date.now())+".csv";document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(u)},1000);
+  }catch(err){toast(l.common.toastSaveErr)}
 });
 
 $("#typeRows").addEventListener("change",function(e){
   var el=e.target,row=el.closest(".prow");
-  if(!row||!el.dataset.f)return;
-  var id=row.dataset.id,f=el.dataset.f,v=el.value;
-  if(f==="price"){v=parseFloat(v);if(isNaN(v)||v<0){var t0=typeById(id);el.value=t0?t0.price:0;return}}
-  if(f==="name"){v=v.trim();if(!v){var t1=typeById(id);el.value=t1?t1.name:"";return}}
-  if(f==="kind")row.querySelector(".ic").innerHTML=icon(v);
-  var upd={};upd[f]=v;
-  if(f==="kind")upd.name=DEFAULT_NAMES.ar[v]||v;
-  run(function(){return patch("types",id,upd)},L().prices.saved);
-});
-$("#addType").addEventListener("submit",function(e){
-  e.preventDefault();
-  var l=L(),m=$("#typeMsg");m.textContent="";
-  var kind=$("#nKind").value,price=parseFloat($("#nPrice").value);
-  if(isNaN(price)||price<0){m.textContent=l.prices.errPrice;$("#nPrice").focus();return}
-  var now=Date.now();
-  run(function(){return put("types",{id:uid("t"),name:DEFAULT_NAMES.ar[kind]||kind,price:price,kind:kind,sort:now})},l.prices.added).then(function(ok){
-    if(ok){$("#nPrice").value="";$("#nPrice").focus()}
-  });
-});
-$("#nKind").innerHTML=kindOptions("sedan");
-
-$("#sShop").addEventListener("change",function(){
-  state.settings.shop=$("#sShop").value.trim()||"لمعة";
-  run(putSettings,L().prices.saved);
-});
-$("#sCur").addEventListener("change",function(){
-  var c=CURRENCIES.find(function(x){return x[0]===$("#sCur").value});
-  if(!c)return;
-  state.settings.cur=c[0];state.settings.dec=c[1];
-  run(putSettings,L().prices.saved);
-});
-document.addEventListener("visibilitychange",function(){if(!document.hidden){renderHeader();renderStats();renderToday();renderLog()}});
-
-/* ---------- boot ---------- */
-function subscribe(){
-  var left=3;
-  function got(){if(--left===0){state.ready=true;state.mode="db"}renderAll()}
-  function fail(){toast(L().common.toastLoadErr);if(!state.ready){state.ready=true}renderAll()}
-  db.collection("types").onSnapshot(function(s){
-    state.types=s.docs.map(function(d){return Object.assign({},d.data(),{id:d.id})});
-    sortAll();if(!subscribe.t){subscribe.t=1;got()}else renderAll();
-  },fail);
-  db.collection("washes").orderBy("ts","desc").limit(1000).onSnapshot(function(s){
-    state.washes=s.docs.map(function(d){return Object.assign({},d.data(),{id:d.id})});
-    sortAll();if(!subscribe.w){subscribe.w=1;got()}else renderAll();
-  },fail);
-  db.doc("settings/main").onSnapshot(function(s){
-    if(s.exists)Object.assign(state.settings,s.data());
-    if(!subscribe.s){subscribe.s=1;got()}else renderAll();
-  },fail);
-}
-
-/* ---------- data file on disk ---------- */
-var fh=null, fileTimer=null, writing=false, again=false;
-var fsOK=("showSaveFilePicker" in window)&&("showOpenFilePicker" in window);
-var FT=[{description:"ملف بيانات المغسلة",accept:{"application/json":[".json"]}}];
-function hOpen(){return new Promise(function(res,rej){var r=indexedDB.open("lamaa-fs",1);r.onupgradeneeded=function(){r.result.createObjectStore("h")};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
-function hGet(){return hOpen().then(function(d){return new Promise(function(res){var q=d.transaction("h").objectStore("h").get("fh");q.onsuccess=function(){res(q.result||null)};q.onerror=function(){res(null)}})}).catch(function(){return null})}
-function hSet(v){return hOpen().then(function(d){d.transaction("h","readwrite").objectStore("h").put(v,"fh")}).catch(function(){})}
-function payload(){return JSON.stringify({app:"lamaa-carwash",version:1,savedAt:Date.now(),types:state.types,washes:state.washes,settings:state.settings},null,1)}
-function banner(kind,name){
-  var b=$("#fileBanner");
-  if(!kind){b.hidden=true;return}
-  var t=$("#bnText");
-  $("#bnCreate").hidden=kind!=="choose";$("#bnOpen").hidden=kind!=="choose";$("#bnPerm").hidden=kind!=="perm";
-  if(kind==="choose")t.textContent="اختر مكان ملف البيانات على جهازك مرة واحدة، وبعدها يُحفظ كل تسجيل وتعديل فيه تلقائياً ويُقرأ منه عند فتح البرنامج.";
-  else if(kind==="perm")t.textContent="اضغط للسماح بالحفظ في الملف ("+name+") ومتابعة العمل منه. هذا يطلبه المتصفح عند كل فتح.";
-  else if(kind==="error")t.textContent="تعذّر الكتابة في ملف البيانات"+(name?" ("+name+")":"")+". البيانات ما زالت محفوظة في المتصفح. اربط الملف من جديد.";
-  else t.textContent="هذا المتصفح لا يدعم الحفظ المباشر في ملف. استخدم Chrome أو Edge. البيانات محفوظة في المتصفح، ويمكنك حفظ نسخة احتياطية.";
-  b.hidden=false;
-  if(kind==="error"){$("#bnCreate").hidden=false;$("#bnOpen").hidden=false;$("#bnPerm").hidden=true}
-  if(kind==="nosupport"){$("#bnCreate").hidden=true;$("#bnOpen").hidden=true;$("#bnPerm").hidden=true}
-}
-async function flush(){
-  if(!fh)return;
-  if(writing){again=true;return}
-  writing=true;
-  try{
-    do{again=false;var w=await fh.createWritable();await w.write(payload());await w.close()}while(again);
-  }catch(e){banner("error",fh&&fh.name)}
-  finally{writing=false}
-}
-function writeSoon(){clearTimeout(fileTimer);fileTimer=setTimeout(flush,150)}
-async function readFile(h){
-  var f=await h.getFile(),t=await f.text();
-  if(!t.trim())return null;
-  var d=JSON.parse(t);
-  if(!d||typeof d!=="object"||!Array.isArray(d.washes)||!Array.isArray(d.types))throw new Error("bad file");
-  return d;
-}
-function replaceData(d){
-  state.types=Array.isArray(d.types)?d.types:[];
-  state.washes=Array.isArray(d.washes)?d.washes:[];
-  if(d.settings&&typeof d.settings==="object")Object.assign(state.settings,d.settings);
-  sortAll();lsWrite();renderAll();
-}
-function mergeData(d){
-  ["types","washes"].forEach(function(k){
-    (Array.isArray(d[k])?d[k]:[]).forEach(function(o){
-      if(!o||!o.id)return;
-      var i=state[k].findIndex(function(x){return x.id===o.id});
-      if(i>=0)state[k][i]=o;else state[k].push(o);
-    });
-  });
-  if(d.settings&&typeof d.settings==="object")Object.assign(state.settings,d.settings);
-  sortAll();lsWrite();renderAll();
-}
-async function askPerm(h){
-  var o={mode:"readwrite"};
-  if((await h.queryPermission(o))==="granted")return true;
-  return (await h.requestPermission(o))==="granted";
-}
-async function connect(h,how){
-  var d=await readFile(h);
-  if(!d){fh=h}
-  else if(how==="open"){if(state.washes.length)mergeData(d);else replaceData(d);fh=h}
-  else if(how==="reconnect"){var loc=lsRead();if(loc&&(loc.savedAt||0)>(d.savedAt||0))mergeData(d);else replaceData(d);fh=h}
-  else{replaceData(d);fh=h}
-  await hSet(h);
-  banner(null);renderAll();
-  await flush();
-}
-function armSilent(h){
-  var done=false;
-  async function go(){
-    if(done)return;done=true;
-    document.removeEventListener("click",go,true);document.removeEventListener("keydown",go,true);
-    try{
-      if(await askPerm(h))await connect(h,"reconnect");
-      else banner("perm",h.name);
-    }catch(e){banner("perm",h.name)}
-  }
-  document.addEventListener("click",go,true);document.addEventListener("keydown",go,true);
-}
-async function restoreHandle(){
-  if(!fsOK){banner("nosupport");return}
-  var h=await hGet();
-  if(!h){banner("choose");return}
-  try{
-    if((await h.queryPermission({mode:"readwrite"}))==="granted")await connect(h,"startup");
-    else armSilent(h);
-  }catch(e){banner("error",h&&h.name)}
-}
-$("#bnCreate").addEventListener("click",async function(){
-  try{
-    var h=await window.showSaveFilePicker({suggestedName:"carwash-data.json",types:FT});
-    fh=h;await hSet(h);banner(null);renderAll();await flush();
-  }catch(e){if(!e||e.name!=="AbortError")toast("تعذّر إنشاء الملف.")}
-});
-$("#bnOpen").addEventListener("click",async function(){
-  try{
-    var r=await window.showOpenFilePicker({types:FT,multiple:false}),h=r[0];
-    if(!(await askPerm(h)))return;
-    await connect(h,"open");
-  }catch(e){if(!e||e.name!=="AbortError")toast("تعذّر فتح الملف.")}
-});
-$("#bnPerm").addEventListener("click",async function(){
-  try{
-    var h=await hGet();if(!h)return;
-    if(!(await askPerm(h)))return;
-    await connect(h,"reconnect");
-  }catch(e){banner("error",null)}
-});
-document.addEventListener("visibilitychange",function(){if(document.hidden&&fh){clearTimeout(fileTimer);flush()}});
-
-/* backup / restore */
-function downloadText(name,text){
-  var a=document.createElement("a"),u=URL.createObjectURL(new Blob([text],{type:"application/json"}));
-  a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1000);
-}
-$("#btnBackup").addEventListener("click",async function(){
-  var l=L(),name="carwash-backup-"+dayKey(Date.now())+".json",st=$("#backupStatus");
-  try{
-    if(fsOK){
-      var h=await window.showSaveFilePicker({suggestedName:name,types:FT});
-      var w=await h.createWritable();await w.write(payload());await w.close();
-      st.textContent=l.prices.backup.saved+h.name;
-    }else{downloadText(name,payload());st.textContent=l.prices.backup.downloaded+name}
-    toast(l.prices.backup.save);
-  }catch(e){if(!e||e.name!=="AbortError"){st.textContent=l.prices.backup.failed;toast(l.prices.backup.failed)}}
-});
-function offerRestore(d){
-  var box=$("#restoreBox"),l=L();
-  var when=d.savedAt?dateFmt(d.savedAt)+" "+timeFmt(d.savedAt):"غير معروف";
-  var msg=l.prices.backup.confirmAr(state.washes.length,d,when);
-  box.innerHTML=msg+'<div class="btnrow"><button type="button" class="btn sm" id="rsGo">'+l.prices.backup.go+'</button><button type="button" class="btn sm ghost" id="rsNo">'+l.prices.backup.no+'</button></div>';
-  box.hidden=false;
-  $("#rsNo").onclick=function(){box.hidden=true;box.innerHTML=""};
-  $("#rsGo").onclick=async function(){
-    replaceData(d);box.hidden=true;box.innerHTML="";
-    if(fh)await flush();
-    $("#backupStatus").textContent=l.prices.backup.restored;toast(l.prices.backup.restored);
-  };
-}
-function parseBackup(text){
-  var d=JSON.parse(text);
-  if(!d||typeof d!=="object"||!Array.isArray(d.washes)||!Array.isArray(d.types))throw new Error("bad");
-  return d;
-}
-$("#btnRestore").addEventListener("click",async function(){
-  var l=L(),st=$("#backupStatus");st.textContent="";
-  try{
-    if(fsOK){
-      var r=await window.showOpenFilePicker({types:FT,multiple:false});
-      var f=await r[0].getFile();offerRestore(parseBackup(await f.text()));
-    }else $("#restoreInput").click();
-  }catch(e){if(!e||e.name!=="AbortError")st.textContent=l.prices.backup.invalid}
-});
-$("#restoreInput").addEventListener("change",function(){
-  var f=this.files&&this.files[0];this.value="";if(!f)return;
-  var rd=new FileReader();
-  rd.onload=function(){try{offerRestore(parseBackup(rd.result))}catch(e){$("#backupStatus").textContent=L().prices.backup.invalid}};
-  rd.readAsText(f);
+  if(!row||el.dataset.f!=="price")return;
+  var t=typeById(row.dataset.id),v=parseFloat(el.value);
+  if(!t)return;
+  if(isNaN(v)||v<0){el.value=t.price;return}
+  state.prices[t.kind]=v;lsSet(pricesKey(),state.prices);
+  state.types=buildTypes();renderChips();syncPrice();renderStats();toast(L().prices.saved);
 });
 
+document.addEventListener("visibilitychange",function(){
+  if(document.hidden)return;
+  renderHeader();renderStats();renderToday();renderLog();
+  if(state.user&&state.ready&&Date.now()-lastLoad>30000)loadWashes();
+  if(state.user) fetchCompanyFromServer();
+});
 
 /* ---------- الفاتورة ---------- */
 var INV={
@@ -1247,10 +1248,28 @@ var INV={
 };
 var PRINTER='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="7" y="14" width="10" height="7" rx="1"/></svg>';
 function invBtn(w){return '<button type="button" class="icon-btn inv" data-invoice="'+esc(w.id)+'" title="'+INV[state.settings.lang==="en"?"en":"ar"].btn+'">'+PRINTER+'</button>'}
-function invNo(w){return "INV-"+String(w.day||dayKey(w.ts)).replace(/-/g,"")+"-"+String(w.ts).slice(-4)}
+function invNo(w){
+  if(w && w.invoice) return w.invoice;               // ← من الشيت
+  // fallback للفواتير القديمة بدون رقم
+  var d=new Date(w.ts);
+  return "INV-"+String(w.day||dayKey(w.ts)).replace(/-/g,"")+"-"+pad(d.getHours())+pad(d.getMinutes())+pad(d.getSeconds());
+}
+function loadImg(src){
+  return new Promise(function(res){
+    if(!src) return res(null);
+    var im = new Image();
+    im.onload = function(){ res(im); };
+    im.onerror = function(){ res(null); };
+    im.src = src;
+  });
+}
 
-function drawInvoice(w){
+async function drawInvoice(w){
   var I=INV[state.settings.lang==="en"?"en":"ar"],rtl=I.rtl;
+  var comp = loadCompany();
+  var logoImg = await loadImg(comp.logo);
+  var stampImg = await loadImg(comp.stamp);
+
   var W=874,H=1240,M=56,c=document.createElement("canvas");c.width=W;c.height=H;
   var x=c.getContext("2d"),F='"Segoe UI","Noto Sans Arabic","Geeza Pro",Tahoma,sans-serif';
   var TEAL="#00808F",INK="#0D2830",GR="#4B646B";
@@ -1261,49 +1280,73 @@ function drawInvoice(w){
     while(s.length>1&&x.measureText(s+"…").width>max)s=s.slice(0,-1);return s+"…"}
   function t(s,px,y,al,sz,wt,col,max){var f=(wt||400)+" "+sz+"px "+F;x.font=f;x.fillStyle=col||INK;x.textAlign=al;
     x.fillText(max?fit(s,max,f):String(s),px,y)}
-  function kv(a,b,y){t(a,S,y,A1,20,400,GR);t(b||"-",E,y,A2,22,600,INK,520)}
-  function head(s,y){t(s,S,y,A1,22,700,TEAL);x.fillStyle="#D2E0E3";x.fillRect(M,y+12,W-2*M,2)}
 
-  /* الشعار */
-  var lx=rtl?W-M-84:M,ly=44;
-  x.fillStyle=TEAL;x.beginPath();if(x.roundRect)x.roundRect(lx,ly,84,84,24);else x.rect(lx,ly,84,84);x.fill();
-  x.save();x.translate(lx+21,ly+21);x.scale(42/24,42/24);
-  x.strokeStyle="#fff";x.lineWidth=1.9;x.lineCap="round";x.lineJoin="round";
-  x.stroke(new Path2D("M12 3.2c3.6 4.2 6 7.1 6 10.3a6 6 0 0 1-12 0c0-3.2 2.4-6.1 6-10.3Z"));
-  x.stroke(new Path2D("M9 14.2a3.2 3.2 0 0 0 3 2.3"));
-  x.restore();
-  var tx=rtl?lx-18:lx+84+18;
-  t(state.settings.shop||I.title,tx,86,A1,38,700,INK,400);
-  t(I.sub,tx,118,A1,20,400,GR,400);
+  // ===== اللوجو أو الشعار =====
+  var lx=rtl?W-M-84:M, ly=44, logoSize=84;
+  if(logoImg){
+    x.save();
+    x.beginPath();
+    if(x.roundRect) x.roundRect(lx,ly,logoSize,logoSize,24); else x.rect(lx,ly,logoSize,logoSize);
+    x.clip();
+    var ar = logoImg.width/logoImg.height, ww=logoSize, hh=logoSize;
+    if(ar>1){ hh = logoSize/ar; } else { ww = logoSize*ar; }
+    x.drawImage(logoImg, lx+(logoSize-ww)/2, ly+(logoSize-hh)/2, ww, hh);
+    x.restore();
+  } else {
+    x.fillStyle=TEAL;x.beginPath();if(x.roundRect)x.roundRect(lx,ly,logoSize,logoSize,24);else x.rect(lx,ly,logoSize,logoSize);x.fill();
+    x.save();x.translate(lx+21,ly+21);x.scale(42/24,42/24);
+    x.strokeStyle="#fff";x.lineWidth=1.9;x.lineCap="round";x.lineJoin="round";
+    x.stroke(new Path2D("M12 3.2c3.6 4.2 6 7.1 6 10.3a6 6 0 0 1-12 0c0-3.2 2.4-6.1 6-10.3Z"));
+    x.stroke(new Path2D("M9 14.2a3.2 3.2 0 0 0 3 2.3"));
+    x.restore();
+  }
+  var tx=rtl?lx-18:lx+logoSize+18;
+  t(comp.name||state.settings.shop||I.title,tx,86,A1,36,700,INK,400);
+  t(I.sub,tx,116,A1,18,400,GR,400);
+  var extraY = 142;
+  if(comp.reg){ t((rtl?"س.ت: ":"CR: ")+comp.reg, tx, extraY, A1, 16, 400, GR, 380); extraY += 22; }
+  if(comp.vat){ t((rtl?"ض: ":"VAT: ")+comp.vat, tx, extraY, A1, 16, 400, GR, 380); extraY += 22; }
+  if(comp.addr){ t(comp.addr, tx, extraY, A1, 15, 400, GR, 380); extraY += 20; }
 
   /* العنوان + الرقم والتاريخ */
   t(I.title,E,78,A2,34,700,TEAL);
   t(I.no+": "+invNo(w),E,106,A2,18,400,GR);
   t(I.date+": "+dateFmt(w.ts)+" "+timeFmt(w.ts),E,132,A2,18,400,GR);
-  x.fillStyle=TEAL;x.fillRect(M,160,W-2*M,3);
+  x.fillStyle=TEAL;x.fillRect(M,170,W-2*M,3);
 
-  /* بيانات الزبون */
-  head(I.cust,214);
-  kv(I.name,w.customer,262);kv(I.phone,w.phone,304);
+  function head(s,y){t(s,S,y,A1,22,700,TEAL);x.fillStyle="#D2E0E3";x.fillRect(M,y+12,W-2*M,2)}
+  function kv(a,b,y){t(a,S,y,A1,20,400,GR);t(b||"-",E,y,A2,22,600,INK,520)}
 
-  /* بيانات المركبة */
-  head(I.veh,380);
-  kv(I.plate,w.plate,428);kv(I.type,tName({kind:w.kind,name:w.typeName}),470);
+  head(I.cust,220);
+  kv(I.name,w.customer,268);kv(I.phone,w.phone,310);
 
-  /* الخدمة */
-  x.fillStyle="#F2F7F8";x.fillRect(M,540,W-2*M,46);
-  t(I.svc,S,570,A1,20,600,GR);t(I.price,E,570,A2,20,600,GR);
+  head(I.veh,386);
+  kv(I.plate,w.plate,434);kv(I.type,tName({kind:w.kind,name:w.typeName}),476);
+
+  x.fillStyle="#F2F7F8";x.fillRect(M,546,W-2*M,46);
+  t(I.svc,S,576,A1,20,600,GR);t(I.price,E,576,A2,20,600,GR);
   var list=(Array.isArray(w.washTypes)&&w.washTypes.length?w.washTypes:(w.washType?[w.washType]:[])).map(wName).slice(0,9);
-  var y=626;
+  var y=632;
   if(!list.length)list=["-"];
   list.forEach(function(n){t(n,S,y,A1,22,500,INK,W-2*M-200);x.fillStyle="#E3ECEE";x.fillRect(M,y+14,W-2*M,1);y+=46});
   if(w.notes){t(I.notes+": "+w.notes,S,y+6,A1,18,400,GR,W-2*M);y+=40}
 
-  /* الإجمالي */
   var ty=Math.max(y+30,900);
   x.fillStyle=TEAL;x.fillRect(M,ty,W-2*M,84);
   t(I.total,S+(rtl?-22:22),ty+53,A1,26,600,"#fff");
   t(num(w.price)+" "+state.settings.cur,E+(rtl?22:-22),ty+55,A2,34,700,"#fff");
+
+  // ===== الختم =====
+  if(stampImg){
+    var stampSize = 130;
+    var sx = rtl ? (W-M-stampSize) : M;
+    var sy = H - stampSize - 110;
+    x.save(); x.globalAlpha = 0.85;
+    var sar = stampImg.width/stampImg.height, sw=stampSize, sh=stampSize;
+    if(sar>1){ sh = stampSize/sar; } else { sw = stampSize*sar; }
+    x.drawImage(stampImg, sx+(stampSize-sw)/2, sy+(stampSize-sh)/2, sw, sh);
+    x.restore();
+  }
 
   t(I.thanks,W/2,H-64,"center",20,400,GR);
   return c;
@@ -1326,19 +1369,21 @@ function jpegToPdf(jpg,iw,ih,pw,ph){
   return new Blob(parts,{type:"application/pdf"});
 }
 async function invoicePdf(w){
-  var c=drawInvoice(w);
-  var b=await new Promise(function(r){c.toBlob(r,"image/jpeg",0.92)});
+  var c = await drawInvoice(w);
+  var b = await new Promise(function(r){c.toBlob(r,"image/jpeg",0.92)});
   return jpegToPdf(new Uint8Array(await b.arrayBuffer()),c.width,c.height,420,595);
 }
 
 var curInv=null;
-function openInvoice(id){
+async function openInvoice(id){
   var w=state.washes.find(function(x){return x.id===id});if(!w)return;
   curInv=w;var I=INV[state.settings.lang==="en"?"en":"ar"];
-  $("#invImg").src=drawInvoice(w).toDataURL("image/png");
+  var c = await drawInvoice(w);
+  $("#invImg").src = c.toDataURL("image/png");
   $("#invPrint").textContent=I.print;$("#invSend").textContent=I.send;$("#invClose").textContent=I.close;
   $("#invModal").hidden=false;document.body.style.overflow="hidden";
 }
+
 function closeInvoice(){$("#invModal").hidden=true;document.body.style.overflow="";curInv=null}
 $("#invClose").addEventListener("click",closeInvoice);
 $("#invModal").addEventListener("click",function(e){if(e.target===this)closeInvoice()});
@@ -1365,30 +1410,131 @@ $("#invSend").addEventListener("click",async function(){
 
 
 
-/* ---------- الفترة التجريبية ---------- */
-var TRIAL_DAYS=5, TRIAL_PHONE="95209623", TK="lamaa-trial-v1";
-function tOpen(){return new Promise(function(res,rej){var r=indexedDB.open("lamaa-trial",1);r.onupgradeneeded=function(){r.result.createObjectStore("t")};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
-function tGet(){return tOpen().then(function(d){return new Promise(function(res){var q=d.transaction("t").objectStore("t").get("s");q.onsuccess=function(){res(q.result||null)};q.onerror=function(){res(null)}})}).catch(function(){return null})}
-function tSet(v){return tOpen().then(function(d){return new Promise(function(res){var tx=d.transaction("t","readwrite");tx.objectStore("t").put(v,"s");tx.oncomplete=res;tx.onerror=res})}).catch(function(){})}
-function tLs(){try{return JSON.parse(localStorage.getItem(TK)||"null")}catch(e){return null}}
+/* ---------- تسجيل الدخول والاشتراك ---------- */
+var SELLER_PHONE="95209623";
 
-async function wipeAll(){
-  try{localStorage.removeItem(LS)}catch(e){}
-  try{await idbWrite(null)}catch(e){}
+function applyLoginLang(){
+  var l=L(),g=l.login;
+  var set=function(id,t){var el=document.getElementById(id);if(el)el.textContent=t};
+  var lgShop = document.getElementById("lgShop");
+  if(lgShop && !lgShop.textContent.trim()) lgShop.textContent = state.settings.shop || l.shop;
+  set("lgTitle",g.title);set("lgSub",g.sub);
+  set("lgPhoneL",g.phone);set("lgPassL",g.pass);set("lgHint",g.hint);set("lgLang",l.label);
+  var b=document.getElementById("lgBtn");if(b&&!b.disabled)b.textContent=g.submit;
+}
+
+/* ==================== BRANDING (شاشة الدخول) ==================== */
+var BRANDING_KEY = "lamaa-branding-v1";
+
+function getBrandingMap(){
+  var m = lsGet(BRANDING_KEY);
+  return (m && typeof m === "object") ? m : {};
+}
+function getCachedBranding(phone){
+  return getBrandingMap()[phone] || null;
+}
+function setCachedBranding(phone, name, logo){
+  var m = getBrandingMap();
+  m[phone] = { name: name || "", logo: logo || "", ts: Date.now() };
+  var keys = Object.keys(m).sort(function(a,b){ return (m[b].ts||0) - (m[a].ts||0); });
+  keys.slice(20).forEach(function(k){ delete m[k]; });
+  lsSet(BRANDING_KEY, m);
+}
+function clearCachedBranding(phone){
+  var m = getBrandingMap();
+  if(phone) delete m[phone]; else m = {};
+  lsSet(BRANDING_KEY, m);
+}
+
+/* يعرض الاسم واللوجو في شاشة الدخول */
+function applyLoginBranding(name, logo){
+  var lgShop = document.getElementById("lgShop");
+  if(lgShop) lgShop.textContent = name || (state.settings.shop || L().shop);
+  var mark = document.querySelector("#loginScreen .lg-brand .mark");
+  if(!mark) return;
+  if(logo){
+    mark.innerHTML = '<img src="'+esc(logo)+'" alt="" style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#fff">';
+  } else {
+    mark.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c3.6 4.2 6 7.1 6 10.3a6 6 0 0 1-12 0c0-3.2 2.4-6.1 6-10.3Z"/><path d="M9 14.2a3.2 3.2 0 0 0 3 2.3"/></svg>';
+  }
+}
+
+/* عرض فوري من الكاش + تحقق خلفي من الشيت */
+var _brandingTimer = null;
+async function fetchBrandingFromPhone(phone){
+  var p = nd(phone).replace(/\D/g, "");
+  if(p.length < 7){ applyLoginBranding("", ""); return; }
+
+  var cached = getCachedBranding(p);
+  if(cached) applyLoginBranding(cached.name || "", cached.logo || "");
+
   try{
-    var h=await hGet();
-    if(h&&(await h.queryPermission({mode:"readwrite"}))==="granted"){
-      var w=await h.createWritable();await w.write("{}");await w.close();
+    var r = await api(USER_API, {action:"getBranding", phone:p});
+    if(r && r.ok && r.branding){
+      var name = r.branding.name || "";
+      var logo = r.branding.logo || "";
+      applyLoginBranding(name, logo);
+      if(!cached || cached.name !== name || cached.logo !== logo){
+        setCachedBranding(p, name, logo);
+      }
+    } else {
+      if(cached) clearCachedBranding(p);
+      applyLoginBranding("", "");
     }
-  }catch(e){}
-  try{await hSet(null)}catch(e){}
+  }catch(e){
+    if(!cached) applyLoginBranding("", "");
+  }
+}
+
+/* مستمع الكتابة في حقل الهاتف (debounce 500ms) */
+document.addEventListener("DOMContentLoaded", function(){ /* احتياطي */
+  var inp = document.getElementById("lgPhone");
+  if(inp){
+    inp.addEventListener("input", function(){
+      var v = this.value;
+      clearTimeout(_brandingTimer);
+      _brandingTimer = setTimeout(function(){ fetchBrandingFromPhone(v); }, 500);
+    });
+  }
+});
+/* ==================== END BRANDING ==================== */
+
+function showLogin(){
+  $("#appWrap").hidden=true;
+  $("#loginScreen").hidden=false;
+  applyLoginLang();
+
+  // اعرض آخر علامة محفوظة للجهاز (فوري، بدون شبكة)
+  var p = nd($("#lgPhone").value).replace(/\D/g,"");
+  if(p.length >= 7){
+    fetchBrandingFromPhone(p);
+  } else {
+    var m = getBrandingMap();
+    var keys = Object.keys(m).sort(function(a,b){ return (m[b].ts||0) - (m[a].ts||0); });
+    var last = keys.length ? m[keys[0]] : null;
+    if(last) applyLoginBranding(last.name || "", last.logo || "");
+    else applyLoginBranding("", "");
+  }
+}
+
+function removeExpired(){
+  var o=document.getElementById("trialEnd");if(o)o.remove();
+  var w=document.querySelector(".wrap");if(w)w.removeAttribute("inert");
+}
+function doLogout(){
+  lsDel(SESS);
+  state.user=null;state.washes=[];state.ready=false;state.loadErr=false;state.mode="loading";state.prices={};
+  removeExpired();
+  $("#lgPass").value="";$("#lgMsg").textContent="";
+  showLogin();
 }
 
 function showExpired(){
   if(document.getElementById("trialEnd"))return;
-  var wa="968"+TRIAL_PHONE;   /* 968 = رمز عُمان */
+  var wa="968"+SELLER_PHONE;   /* 968 = رمز عُمان */
   var msg="مرحباً\n"+
-    "أريد شراء برنامج: مغسلة السيارات\n\n"+
+    "أريد شراء برنامج: مغسلة السيارات\n"+
+    (state.user?"رقم الهاتف المسجل: "+state.user.phone+"\n":"")+"\n"+
     "المبلغ:\n"+
     "- 40 ريال عماني: لجهاز واحد\n"+
     "- 80 ريال عماني: برنامج يعمل أونلاين من أي جهاز\n\n"+
@@ -1402,61 +1548,237 @@ function showExpired(){
   o.innerHTML='<div style="max-width:420px;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px">'+
     '<h2 style="font-size:22px;margin-bottom:12px">انتهت التجربة المجانية</h2>'+
     '<p style="margin:0 0 6px">لشراء البرنامج تواصل مع الرقم</p>'+
-    '<p style="margin:0 0 18px"><a href="tel:'+TRIAL_PHONE+'" dir="ltr" style="font:700 28px var(--f-display);text-decoration:none">'+TRIAL_PHONE+'</a></p>'+
+    '<p style="margin:0 0 18px"><a href="tel:'+SELLER_PHONE+'" dir="ltr" style="font:700 28px var(--f-display);text-decoration:none">'+SELLER_PHONE+'</a></p>'+
     '<a href="'+link+'" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:10px;height:50px;border-radius:12px;background:#25D366;color:#fff;font:600 16px var(--f-body);text-decoration:none">'+WA+'<span>إرسال طلب عبر واتساب</span></a>'+
-    '<p class="muted" style="margin:16px 0 0;font-size:13px" dir="ltr">Free trial has ended. To purchase, contact '+TRIAL_PHONE+'</p></div>';
+    '<button type="button" id="expOut" class="btn ghost block" style="margin-top:12px">تسجيل الخروج / Log out</button>'+
+    '<p class="muted" style="margin:16px 0 0;font-size:13px" dir="ltr">Free trial has ended. To purchase, contact '+SELLER_PHONE+'</p></div>';
   document.body.appendChild(o);
+  document.getElementById("expOut").addEventListener("click",doLogout);
   var w=document.querySelector(".wrap");if(w)w.setAttribute("inert","");
 }
 
-/* يرجع true إذا انتهت التجربة */
-async function trialCheck(){
-  var now=Date.now(),a=tLs(),b=await tGet();
-  var starts=[a,b].filter(Boolean).map(function(x){return x.start}).filter(Boolean);
-  var start=starts.length?Math.min.apply(null,starts):now;
-  var last=Math.max(now,(a&&a.last)||0,(b&&b.last)||0);   /* يكشف إرجاع ساعة الجهاز للخلف */
-  var was=!!((a&&a.expired)||(b&&b.expired));
-  var expired=was||(last-start>=TRIAL_DAYS*864e5);
-  var rec={start:start,last:last,expired:expired};
-  try{localStorage.setItem(TK,JSON.stringify(rec))}catch(e){}
-  await tSet(rec);
-  if(expired){
-    clearTimeout(fileTimer);fh=null;db=null;
-    if(!was)await wipeAll();
-    showExpired();
-    return true;
-  }
-  trialCheck.left=Math.max(1,Math.ceil((TRIAL_DAYS*864e5-(last-start))/864e5));
-  return false;
-}
-setInterval(function(){trialCheck()},60000);
-
-
-
-async function init(){
-  if(await trialCheck())return; 
+function startSession(u,pass,offline){
+  state.user={id:u.id,phone:u.phone,name:u.name||"",expiry:u.expiry,pass:pass};
+  lsSet(SESS,state.user);
+  state.prices=lsGet(pricesKey())||{};
+  state.types=buildTypes();state.sel=null;
+  state.washes=[];state.ready=false;state.loadErr=false;state.mode=offline?"off":"loading";
+  $("#loginScreen").hidden=true;
+  $("#appWrap").hidden=false;
   setView(location.hash.slice(1));
   renderAll();
-  var d=null;
-  try{if(window.claude&&window.claude.use)d=await window.claude.use("db")}catch(e){d=null}
-  try{if(window.claude&&window.claude.use)dl=await window.claude.use("downloads")}catch(e){dl=null}
-  if(d){db=d;state.mode="db";subscribe();state.mode="db"}
-  else{
-    state.mode="local";
-    var saved=lsRead();
-    var fromIdb=await idbRead();
-    if(fromIdb&&(!saved||(fromIdb.savedAt||0)>(saved.savedAt||0)))saved=fromIdb;
-    if(saved){state.types=saved.types||[];state.washes=saved.washes||[];Object.assign(state.settings,saved.settings||{})}
-    else{state.types=defaultTypes()}
-    sortAll();renderHeader();
-    await restoreHandle();
-    state.ready=true;renderAll();
-    if(!saved&&!fh)lsWrite();
-    try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()
-      toast("التجربة المجانية: متبقي "+trialCheck.left+" يوم");
-    }catch(e){}
+  loadWashes();
+  (async function verifyBranding(){
+  try{
+    var p = nd(state.user.phone).replace(/\D/g,"");
+    var r = await api(USER_API, {action:"getBranding", phone:p});
+    if(r && r.ok && r.branding){
+      setCachedBranding(p, r.branding.name || "", r.branding.logo || "");
+    }
+  }catch(e){}
+})();
+  fetchCompanyFromServer();
+  var left=Math.max(1,Math.ceil(((u.expiry||0)-Date.now())/864e5));
+  if(u.expiry&&left<=5)toast(L().login.left(left));
+}
+
+$("#lgForm").addEventListener("submit",async function(e){
+  e.preventDefault();
+  var g=L().login,m=$("#lgMsg"),btn=$("#lgBtn");m.textContent="";
+  var phone=nd($("#lgPhone").value).replace(/\D/g,""),pass=$("#lgPass").value;
+  if(phone.length<7||phone.length>15){m.textContent=g.errPhone;$("#lgPhone").focus();return}
+  if(pass.length<4){m.textContent=g.errPass;$("#lgPass").focus();return}
+  btn.disabled=true;btn.textContent=g.wait;
+  try{
+    var r=await api(USER_API,{action:"login",phone:phone,pass:pass});
+    if(r&&r.ok){
+      var isNew=!!r.user.isNew;
+      startSession(r.user,pass,false);
+      if(isNew)toast(g.welcome);
+    }
+    else if(r&&r.code==="EXPIRED"){state.user={phone:phone};showExpired()}
+    else if(r&&r.code==="WRONG_PASS")m.textContent=g.errWrong;
+    else if(r&&r.code==="BAD_PHONE")m.textContent=g.errPhone;
+    else if(r&&r.code==="BAD_PASS")m.textContent=g.errPass;
+    else m.textContent=g.errNet;
+  }catch(err){m.textContent=(err&&err.message==="noapi")?g.errApi:g.errNet}
+  btn.disabled=false;btn.textContent=g.submit;
+});
+
+/* يتحقق من تاريخ الانتهاء كل دقيقة */
+setInterval(async function(){
+  if(!state.user||!state.user.expiry||Date.now()<=state.user.expiry)return;
+  try{
+    var r=await api(USER_API,{action:"login",phone:state.user.phone,pass:state.user.pass});
+    if(r&&r.ok){state.user.expiry=r.user.expiry;lsSet(SESS,state.user)}
+    else showExpired();
+  }catch(e){showExpired()}
+},60000);
+
+async function init(){
+  showLoading();
+  try{
+    var sv=lsGet(SK);if(sv&&typeof sv==="object")Object.assign(state.settings,sv);
+    document.documentElement.lang=L().lang;document.documentElement.dir=L().dir;document.body.dir=L().dir;
+    var sess=lsGet(SESS);
+    if(sess&&sess.id&&sess.phone&&sess.pass){
+      try{
+        var r=await api(USER_API,{action:"login",phone:sess.phone,pass:sess.pass});
+        if(r&&r.ok){startSession(r.user,sess.pass,false);return}
+        if(r&&r.code==="EXPIRED"){showLogin();state.user={phone:sess.phone};showExpired();return}
+        lsDel(SESS);
+      }catch(e){
+        if(sess.expiry&&sess.expiry>Date.now()){startSession(sess,sess.pass,true);return}
+      }
+    }
+    showLogin();
+  } finally {
+    hideLoading();
   }
 }
+
+/* ================= COMPANY ================= */
+var COMPANY_KEY = "lamaa-company-v1";
+function companyKey(){ return COMPANY_KEY + "-" + (state.user ? state.user.id : "x"); }
+function loadCompany(){
+  // يقرأ من الكاش المحلي (للعرض الفوري)
+  var c = lsGet(companyKey()) || {};
+  return {name:c.name||"", reg:c.reg||"", vat:c.vat||"", addr:c.addr||"", logo:c.logo||"", stamp:c.stamp||""};
+}
+function cacheCompany(c){ lsSet(companyKey(), c); }
+
+// جلب بيانات الشركة من Google Drive (CarWashUser)
+async function fetchCompanyFromServer(){
+  if(!state.user) return;
+  try{
+    var r = await api(USER_API, {action:"getCompany", auth:authBody()});
+    if(r && r.ok && r.company){
+      var c = {
+        name:  String(r.company.name  || ""),
+        reg:   String(r.company.reg   || ""),
+        vat:   String(r.company.vat   || ""),
+        addr:  String(r.company.addr  || ""),
+        logo:  String(r.company.logo  || ""),
+        stamp: String(r.company.stamp || "")
+      };
+      cacheCompany(c);
+      renderHeader();
+    }
+  }catch(e){ /* في حال عدم الاتصال نستخدم الكاش */ }
+}
+
+// حفظ بيانات الشركة في Google Drive (CarWashUser)
+async function saveCompanyToServer(c){
+  if(!state.user) return false;
+  try{
+    var r = await api(USER_API, {action:"saveCompany", auth:authBody(), company:c});
+    if(r && r.ok){ cacheCompany(c); return true; }
+    return false;
+  }catch(e){ return false; }
+}
+
+var pendingCompany = null;
+function openCompanyModal(){
+  pendingCompany = loadCompany();
+  $("#cmName").value = pendingCompany.name;
+  $("#cmReg").value  = pendingCompany.reg;
+  $("#cmVat").value  = pendingCompany.vat;
+  $("#cmAddr").value = pendingCompany.addr;
+  setImg("logo", pendingCompany.logo);
+  setImg("stamp", pendingCompany.stamp);
+  $("#companyModal").hidden = false;
+  document.body.style.overflow = "hidden";
+}
+function closeCompanyModal(){
+  $("#companyModal").hidden = true;
+  document.body.style.overflow = "";
+  pendingCompany = null;
+}
+function setImg(kind, dataUrl){
+  var drop = $("#"+kind+"Drop"), img = $("#"+kind+"Img"), ph = $("#"+kind+"Ph");
+  if(dataUrl){ img.src = dataUrl; img.hidden = false; ph.hidden = true; drop.classList.add("has"); }
+  else { img.removeAttribute("src"); img.hidden = true; ph.hidden = false; drop.classList.remove("has"); }
+}
+
+function readImageFile(file, cb){
+  var r = new FileReader();
+  r.onload = function(){
+    var img = new Image();
+    img.onload = function(){
+      // تصغير الصورة لتقليل الحجم (max 300px، JPEG)
+      var max = 300, w = img.width, h = img.height;
+      if(w > max || h > max){ var s = Math.min(max/w, max/h); w = Math.round(w*s); h = Math.round(h*s); }
+      var c = document.createElement("canvas"); c.width = w; c.height = h;
+      var ctx = c.getContext("2d");
+      // خلفية بيضاء (حتى لا تصبح شفافة إلى سوداء)
+      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
+      cb(c.toDataURL("image/jpeg", 0.8));   // ← JPEG أخف بكثير من PNG
+    };
+    img.src = r.result;
+  };
+  r.readAsDataURL(file);
+}
+
+// (استخدم الطريقة التالية بدل السطر أعلاه)
+document.addEventListener("click", function(e){
+  if(e.target.closest("#btnCompany")){ openCompanyModal(); return; }
+  if(e.target.closest("#cmClose")){ closeCompanyModal(); return; }
+    if(e.target.closest("#cmSave")){
+    var c = {
+      name: $("#cmName").value.trim(),
+      reg:  $("#cmReg").value.trim(),
+      vat:  $("#cmVat").value.trim(),
+      addr: $("#cmAddr").value.trim(),
+      logo: pendingCompany.logo || "",
+      stamp: pendingCompany.stamp || ""
+    };
+    var btn = $("#cmSave");
+    btn.disabled = true;
+    showLoading("جارٍ حفظ بيانات الشركة…");
+    saveCompanyToServer(c).then(function(ok){
+      hideLoading();
+      btn.disabled = false;
+      if(ok){
+        closeCompanyModal();
+        renderHeader();
+        renderAll();
+        toast("تم حفظ بيانات الشركة");
+      } else {
+        toast("تعذّر الحفظ. تحقق من الاتصال بالإنترنت.");
+      }
+    });
+    return;
+  }
+  if(e.target === $("#companyModal")){ closeCompanyModal(); return; }
+});
+
+// رفع اللوجو
+$("#logoInput").addEventListener("change", function(){
+  var f = this.files && this.files[0]; if(!f) return;
+  readImageFile(f, function(dataUrl){
+    pendingCompany.logo = dataUrl; setImg("logo", dataUrl);
+  });
+  this.value = "";
+});
+$("#stampInput").addEventListener("change", function(){
+  var f = this.files && this.files[0]; if(!f) return;
+  readImageFile(f, function(dataUrl){
+    pendingCompany.stamp = dataUrl; setImg("stamp", dataUrl);
+  });
+  this.value = "";
+});
+$("#logoRm").addEventListener("click", function(ev){
+  ev.preventDefault(); ev.stopPropagation();
+  pendingCompany.logo = ""; setImg("logo", "");
+});
+$("#stampRm").addEventListener("click", function(ev){
+  ev.preventDefault(); ev.stopPropagation();
+  pendingCompany.stamp = ""; setImg("stamp", "");
+});
+/* =============== END COMPANY =============== */
+
+
 init();
 })();
 
